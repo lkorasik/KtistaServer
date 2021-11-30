@@ -1,22 +1,37 @@
 package com.ktinsta.server.model
 
+import com.ktinsta.server.listeners.UserListener
+import org.springframework.format.annotation.DateTimeFormat
+import java.time.Instant
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Pattern
 
 @Entity
 @Table(name = "`user`")
+@EntityListeners(UserListener::class)
 data class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long = 0,
 
     @get: NotBlank
-    val email: String,
+    var email: String = "",
+
+    @Column(unique = true)
+    @get: NotBlank
+    var username: String = "",
 
     @get: NotBlank
-    val username: String,
+    var password: String = "",
 
-    @get: NotBlank
-    val password: String
+    var status: String = "",
+
+    @Pattern(regexp = "\\A(activated|deactivated)\\z")
+    var accountStatus: String = "activated",
+
+    @DateTimeFormat
+    var createdAt: Date = Date.from(Instant.now())
 
 )
