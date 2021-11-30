@@ -1,52 +1,60 @@
 package com.ktinsta.server.controllers
 
+import com.ktinsta.server.components.UserAssembler
+import com.ktinsta.server.constants.ResponseConstants
+import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
-import org.springframework.http.HttpStatus
+import com.ktinsta.server.service.UserServiceImpl
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.Instant
+import java.util.*
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/users")
-class ArticleController(private val userRepository: UserRepository) {
-
-    @GetMapping("/list")
-    fun getAllUsers(): List<User> =
-        userRepository.findAll()
+@RequestMapping("/api/user")
+class UserController(val userRepository: UserRepository,
+                     val userService: UserServiceImpl,
+                     val userAssembler: UserAssembler) {
 
 
     @PostMapping("/registration")
-    fun createNewUser(@Valid @RequestBody user: User): User {
-        return userRepository.save(user)
+    fun createNewUser(@Valid @RequestBody userDetails: User): ResponseEntity<UserVO> {
+        val user = userService.attemptRegistration(userDetails)
+        return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 
-    @GetMapping("/user/{id}")
-    fun getUserById(@PathVariable(value = "id") articleId: Long): ResponseEntity<User> {
-        return userRepository.findById(articleId).map { article ->
-            ResponseEntity.ok(article)
-        }.orElse(ResponseEntity.notFound().build())
+    // FIXME: внедряя это говно мы должны хранить cookies, и проверять в других методах контроллера
+    // FIXME: нужно будет переписать, чтобы в заголовок сувалось, но пока что так
+    @PostMapping("/login")
+    fun loginUser(@Valid @RequestBody loginDetails: LoginVO,
+                  response: HttpServletResponse): ResponseEntity<Any> {
+        val user = userService.attemptLogin(loginDetails)
+
+        val issuer = user.id.toString()
+        val jwt = Jwts.builder()
+            .setIssuer(issuer)
+            .setExpiration(Date(System.currentTimeMillis() * 60 * 24 * 1000)) // 1 day expiration
+            .signWith(SignatureAlgorithm.HS512, "secretKey")
+            .compact()
+
+        val cookie = Cookie("jwt", jwt)
+        cookie.isHttpOnly = true
+
+        response.addCookie(cookie)
+
+        return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
 
-    @PutMapping("/user/{id}")
-    fun updateUserById(@PathVariable(value = "id") userId: Long,
-                       @Valid @RequestBody newUser: User): ResponseEntity<User> {
-
-        return userRepository.findById(userId).map { existingArticle ->
-            val updatedArticle: User = existingArticle
-                .copy(email = newUser.email, username = newUser.username, password = newUser.password)
-            ResponseEntity.ok().body(userRepository.save(updatedArticle))
-        }.orElse(ResponseEntity.notFound().build())
-
-    }
-
-    @DeleteMapping("/user/{id}")
-    fun deleteUserById(@PathVariable(value = "id") userId: Long): ResponseEntity<Void> {
-
-        return userRepository.findById(userId).map { article  ->
-            userRepository.delete(article)
-            ResponseEntity<Void>(HttpStatus.OK)
-        }.orElse(ResponseEntity.notFound().build())
-
+    @GetMapping("/{id}")
+    fun getUserById(@PathVariable(value = "id") userId: Long): ResponseEntity<UserVO> {
+        val user = userService.retrieveUserData(userId)
+        return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 }
