@@ -25,8 +25,21 @@ class UserController(val userRepository: UserRepository,
 
 
     @PostMapping("/registration")
-    fun createNewUser(@Valid @RequestBody userDetails: User): ResponseEntity<UserVO> {
+    fun createNewUser(@Valid @RequestBody userDetails: User, response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.attemptRegistration(userDetails)
+
+        val issuer = user.id.toString()
+        val jwt = Jwts.builder()
+            .setIssuer(issuer)
+            .setExpiration(Date(System.currentTimeMillis() * 60 * 24 * 1000)) // 1 day expiration
+            .signWith(SignatureAlgorithm.HS512, "secretKey")
+            .compact()
+
+        val cookie = Cookie("jwt", jwt)
+        cookie.isHttpOnly = true
+
+        response.addCookie(cookie)
+
         return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 
