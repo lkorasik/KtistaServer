@@ -19,7 +19,7 @@ import kotlin.coroutines.coroutineContext
 class PostController(val postService: PostService, val userService: UserService){
     @PostMapping("/create")
     fun createPost(@Valid @RequestBody postDetails: PostNet, response: HttpServletResponse): ResponseEntity<Any> {
-        val author = userService.findById(postDetails.userId)
+        val author = userService.retrieveUserData(postDetails.userId)
 
         val post = Post(author = author, text = postDetails.text)
         val image = Image(data = postDetails.data, post = post)

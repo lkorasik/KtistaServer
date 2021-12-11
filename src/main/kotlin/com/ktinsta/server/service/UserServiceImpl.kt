@@ -67,8 +67,6 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         return repository.findByUsername(username) != null
     }
 
-    override fun findById(id: Long): User = repository.findById(id).get()
-
     @Throws(UserStatusEmptyException::class)
     fun updateUserStatus(currentUser: User, userDetails: User): User {
         if (!currentUser.status.isEmpty()) {
