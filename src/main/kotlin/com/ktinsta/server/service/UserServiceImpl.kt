@@ -2,6 +2,7 @@ package com.ktinsta.server.service
 
 import com.ktinsta.server.exceptions.*
 import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -12,7 +13,7 @@ import java.util.*
 class UserServiceImpl(val repository: UserRepository) : UserService {
 
     @Throws(UsernameUnavailableException::class)
-    override fun attemptRegistration(userDetails: User): User {
+    override fun attemptRegistration(userDetails: RegistrationVO): User {
         if (!usernameExists(userDetails.username)) {
             val user = User()
             user.username = userDetails.username
@@ -79,11 +80,11 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
 
     @Throws(InvalidPasswordException::class)
     fun validatePassword(loginDetails: LoginVO, userDetails: User) : User {
-        val isValid = BCryptPasswordEncoder()
-            .matches(loginDetails.password, userDetails.password)
-        if (isValid)
+        val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)
+        if (isValid) {
+            obscurePassword(userDetails)
             return userDetails
-
+        }
         throw InvalidPasswordException("Password for user: ${userDetails.username} is incorrect.")
     }
 
