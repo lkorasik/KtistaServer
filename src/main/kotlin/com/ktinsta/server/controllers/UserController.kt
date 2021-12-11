@@ -1,24 +1,20 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.ProfileVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.helpers.objects.UserVO
-import com.ktinsta.server.model.Post
-import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.Instant
 import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
-import kotlin.collections.HashMap
 
 @RestController
 @RequestMapping("/api/user")
@@ -65,9 +61,10 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
         //return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
 
-    @GetMapping("/{id}")
-    fun getUserById(@PathVariable(value = "id") userId: Long): ResponseEntity<UserVO> {
+    @GetMapping("/profile/{id}")
+    fun getProfile(@PathVariable(value = "id") userId: Long): ResponseEntity<ProfileVO> {
         val user = userService.retrieveUserData(userId)
-        return ResponseEntity.ok(userAssembler.toUserVO(user))
+        return ResponseEntity.ok(userAssembler.toProfileVO(user))
+        //return ResponseEntity.ok(userAssembler.toProfileVO(user))
     }
 }
