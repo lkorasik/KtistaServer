@@ -4,6 +4,7 @@ import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.UserVO
+import com.ktinsta.server.model.Post
 import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
@@ -16,14 +17,11 @@ import java.util.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
+import kotlin.collections.HashMap
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(val userRepository: UserRepository,
-                     val userService: UserServiceImpl,
-                     val userAssembler: UserAssembler) {
-
-
+class UserController(val userRepository: UserRepository, val userService: UserServiceImpl, val userAssembler: UserAssembler) {
     @PostMapping("/registration")
     fun createNewUser(@Valid @RequestBody userDetails: User, response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.attemptRegistration(userDetails)

@@ -16,7 +16,6 @@ data class Image(
     @JoinColumn(referencedColumnName = "id")
     var post: Post? = null,
 
-    @get: NotBlank
     var data: ByteArray? = null,
 
     @DateTimeFormat

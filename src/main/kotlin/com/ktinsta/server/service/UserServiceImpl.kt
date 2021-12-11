@@ -6,7 +6,7 @@ import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.ArrayList
+import java.util.*
 
 @Service
 class UserServiceImpl(val repository: UserRepository) : UserService {
@@ -38,8 +38,6 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         }
         throw InvalidUsernameException("No user with username: ${loginDetails.username} has been found")
     }
-
-
 
     override fun listUsers(currentUser: User): List<User> {
         return repository.findAll()

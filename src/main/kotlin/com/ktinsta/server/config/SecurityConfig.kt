@@ -23,6 +23,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .authorizeRequests()
             .antMatchers("/api/admin/**").hasRole("ADMIN")
             .antMatchers("/api/user/**").permitAll()
+            .antMatchers("/api/post/**").permitAll()
             .antMatchers("/login*").permitAll()
             .anyRequest().authenticated()
             .and()
