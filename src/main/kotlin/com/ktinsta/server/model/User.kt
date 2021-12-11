@@ -10,34 +10,6 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
 @Entity
-data class Post(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
-
-    //TODO: Прописать каскадное удаление 
-    @ManyToOne(targetEntity = User::class)
-    @JoinColumn(referencedColumnName = "id")
-    @get: NotBlank
-    var author: User? = null,
-
-    @get: NotBlank
-    var text: String = "",
-
-    @get: NotBlank
-    var likesCounter: Int = 0,
-
-    @get: NotBlank
-    var dislikesCounter: Int = 0,
-
-    @get: NotBlank
-    var commentCounter: Int = 0,
-
-    @DateTimeFormat
-    var createdAt: Date = Date.from(Instant.now())
-)
-
-@Entity
 @Table(name = "`user`")
 @EntityListeners(UserListener::class)
 data class User(
