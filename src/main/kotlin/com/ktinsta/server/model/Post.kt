@@ -13,7 +13,7 @@ data class Post(
     var id: Long = 0,
 
     //TODO: Прописать каскадное удаление
-    @ManyToOne(targetEntity = User::class)
+    @ManyToOne(targetEntity = User::class, cascade= [CascadeType.REMOVE])
     @JoinColumn(referencedColumnName = "id")
     @get: NotBlank
     var author: User? = null,
