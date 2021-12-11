@@ -3,6 +3,7 @@ package com.ktinsta.server.controllers
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.model.Post
 import com.ktinsta.server.model.User
@@ -23,7 +24,7 @@ import kotlin.collections.HashMap
 @RequestMapping("/api/user")
 class UserController(val userRepository: UserRepository, val userService: UserServiceImpl, val userAssembler: UserAssembler) {
     @PostMapping("/registration")
-    fun createNewUser(@Valid @RequestBody userDetails: User, response: HttpServletResponse): ResponseEntity<Any> {
+    fun createNewUser(@Valid @RequestBody userDetails: RegistrationVO, response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.attemptRegistration(userDetails)
 
         val issuer = user.id.toString()
@@ -38,14 +39,14 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
 
         response.addCookie(cookie)
 
-        return ResponseEntity.ok(userAssembler.toUserVO(user))
+        return ResponseEntity.ok(userAssembler.toAuthResponseVO(user))
+        //return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 
     // FIXME: внедряя это говно мы должны хранить cookies, и проверять в других методах контроллера
     // FIXME: нужно будет переписать, чтобы в заголовок сувалось, но пока что так
     @PostMapping("/login")
-    fun loginUser(@Valid @RequestBody loginDetails: LoginVO,
-                  response: HttpServletResponse): ResponseEntity<Any> {
+    fun loginUser(@Valid @RequestBody loginDetails: LoginVO, response: HttpServletResponse): ResponseEntity<Any> {
         val user = userService.attemptLogin(loginDetails)
 
         val issuer = user.id.toString()
@@ -60,7 +61,8 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
 
         response.addCookie(cookie)
 
-        return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
+        return ResponseEntity.ok(userAssembler.toAuthResponseVO(user))
+        //return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
 
     @GetMapping("/{id}")
