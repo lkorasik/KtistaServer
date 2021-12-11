@@ -15,9 +15,9 @@ data class Post(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    //TODO: Прописать каскадное
+    //TODO: Прописать каскадное удаление 
     @ManyToOne(targetEntity = User::class)
-    @JoinColumn(name="author_id", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     @get: NotBlank
     var author: User? = null,
 
