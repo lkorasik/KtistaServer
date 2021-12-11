@@ -21,9 +21,8 @@ class PostController(val postService: PostService, val userService: UserService)
     fun createPost(@Valid @RequestBody postDetails: PostNet, response: HttpServletResponse): ResponseEntity<Any> {
         val author = userService.findById(postDetails.userId)
 
-        val image = Image(data = postDetails.data)
         val post = Post(author = author, text = postDetails.text)
-        image.post = post
+        val image = Image(data = postDetails.data, post = post)
 
         postService.create(post, image)
 
