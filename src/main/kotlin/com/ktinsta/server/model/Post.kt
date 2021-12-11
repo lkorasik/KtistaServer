@@ -15,19 +15,15 @@ data class Post(
     //TODO: Прописать каскадное удаление
     @ManyToOne(targetEntity = User::class)
     @JoinColumn(referencedColumnName = "id")
-    @get: NotBlank
     var author: User? = null,
 
     @get: NotBlank
     var text: String = "",
 
-    @get: NotBlank
     var likesCounter: Int = 0,
 
-    @get: NotBlank
     var dislikesCounter: Int = 0,
 
-    @get: NotBlank
     var commentCounter: Int = 0,
 
     @DateTimeFormat

@@ -20,19 +20,6 @@ import javax.validation.Valid
 import kotlin.collections.HashMap
 
 @RestController
-@RequestMapping("/api/post/")
-class PostController{
-    @PostMapping("/create")
-    fun createPost(@Valid @RequestBody post: PostNet, response: HttpServletResponse): ResponseEntity<Any>{
-        println("Create post")
-
-        return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
-    }
-}
-
-data class PostNet(var userId: Long, var text: String, var data: ByteArray)
-
-@RestController
 @RequestMapping("/api/user")
 class UserController(val userRepository: UserRepository, val userService: UserServiceImpl, val userAssembler: UserAssembler) {
     @PostMapping("/registration")

@@ -6,7 +6,7 @@ import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.ArrayList
+import java.util.*
 
 @Service
 class UserServiceImpl(val repository: UserRepository) : UserService {
@@ -39,8 +39,6 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         throw InvalidUsernameException("No user with username: ${loginDetails.username} has been found")
     }
 
-
-
     override fun listUsers(currentUser: User): List<User> {
         return repository.findAll()
             .mapTo(ArrayList(), { it })
@@ -68,6 +66,8 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
     override fun usernameExists(username: String): Boolean {
         return repository.findByUsername(username) != null
     }
+
+    override fun findById(id: Long): User = repository.findById(id).get()
 
     @Throws(UserStatusEmptyException::class)
     fun updateUserStatus(currentUser: User, userDetails: User): User {
