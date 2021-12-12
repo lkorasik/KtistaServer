@@ -1,16 +1,14 @@
 package com.ktinsta.server.components
 
 import com.ktinsta.server.helpers.objects.AuthResponseVO
-import com.ktinsta.server.helpers.objects.ProfileVO
-import com.ktinsta.server.helpers.objects.UserListVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.model.User
 import org.springframework.stereotype.Component
 
 @Component
 class UserAssembler {
-    fun toProfileVO(user: User): ProfileVO {
-        return ProfileVO(
+    fun toUserVO(user: User): UserVO {
+        return UserVO(
             image = byteArrayOf(1), //TODO: Дописать код для отправки аватарки
             username = user.username,
             followers = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
