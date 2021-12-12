@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component
 class UserAssembler {
     fun toProfileVO(user: User): ProfileVO {
         return ProfileVO(
-            image = byteArrayOf(1),
+            image = byteArrayOf(1), //TODO: Дописать код для отправки аватарки
             username = user.username,
-            followers = 0,
+            followers = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
             followings = 0
         )
     }
