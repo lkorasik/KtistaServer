@@ -27,6 +27,8 @@ data class User(
     @get: NotBlank
     var password: String = "",
 
+    var avatar: ByteArray? = null,
+
     var status: String = "",
 
     @Pattern(regexp = "\\A(activated|deactivated)\\z")
