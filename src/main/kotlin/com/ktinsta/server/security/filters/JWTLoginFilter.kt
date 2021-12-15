@@ -3,6 +3,7 @@ package com.ktinsta.server.security.filters
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.security.service.TokenAuthenticationService
+import io.jsonwebtoken.SignatureException
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -26,7 +27,7 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager)
     @Throws(AuthenticationException::class, IOException::class, ServletException::class)
     override fun attemptAuthentication(request: HttpServletRequest,
                                        response: HttpServletResponse): Authentication {
-        // Чтение учетных данных в запросе
+        // Чтение учетных данных из запроса
         val credentials = ObjectMapper()
             .readValue(request.inputStream, AccountCredentials::class.java)
 

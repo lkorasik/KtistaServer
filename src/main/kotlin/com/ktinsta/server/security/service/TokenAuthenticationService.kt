@@ -26,7 +26,7 @@ internal object TokenAuthenticationService {
         response.addHeader(AUTHORIZATION_HEADER_KEY, "$TOKEN_PREFIX $jwt")
     }
 
-    // Синтаксический разбор токенв
+    // Синтаксический разбор токена
     fun getAuthentication(request: HttpServletRequest): Authentication? {
         val token = request.getHeader(AUTHORIZATION_HEADER_KEY)
         if (token != null) {
