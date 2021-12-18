@@ -78,6 +78,15 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         throw UserStatusEmptyException("A user's status can't be empty.")
     }
 
+    fun setAvatar(id: Long, newAvatar: ByteArray){
+        repository.apply {
+            val user = findById(id).get().apply {
+                avatar = newAvatar
+            }
+            save(user)
+        }
+    }
+
     @Throws(InvalidPasswordException::class)
     fun validatePassword(loginDetails: LoginVO, userDetails: User) : User {
         val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)

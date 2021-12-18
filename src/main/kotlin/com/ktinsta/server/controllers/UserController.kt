@@ -4,6 +4,7 @@ import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
+import com.ktinsta.server.helpers.objects.SettingsAvatarDTO
 import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
 import io.jsonwebtoken.Jwts
@@ -24,5 +25,13 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
         val user = userService.retrieveUserData(userId)
         return ResponseEntity.ok(userAssembler.toUserVO(user))
         //return ResponseEntity.ok(userAssembler.toProfileVO(user))
+    }
+
+    @PostMapping("/settings/avatar")
+    fun setAvatar(@Valid @RequestBody settings: SettingsAvatarDTO): ResponseEntity<Void> {
+        val user = userService.retrieveUserData(settings.id)
+        userService.setAvatar(user, settings.avatar)
+
+        return ResponseEntity.ok().build()
     }
 }
