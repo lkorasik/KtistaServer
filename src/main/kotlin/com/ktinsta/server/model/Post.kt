@@ -17,7 +17,6 @@ data class Post(
     @JoinColumn(referencedColumnName = "id")
     var author: User? = null,
 
-    @get: NotBlank
     var text: String = "",
 
     var likesCounter: Int = 0,
