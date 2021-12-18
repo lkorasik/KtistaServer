@@ -30,7 +30,7 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
     @PostMapping("/settings/avatar")
     fun setAvatar(@Valid @RequestBody settings: SettingsAvatarDTO): ResponseEntity<Void> {
         val user = userService.retrieveUserData(settings.id)
-        userService.setAvatar(user, settings.avatar)
+        userService.setAvatar(settings.id, settings.avatar)
 
         return ResponseEntity.ok().build()
     }
