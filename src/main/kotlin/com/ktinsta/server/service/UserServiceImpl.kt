@@ -102,6 +102,18 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         }
     }
 
+    fun setSettings(id: Long, settingsDTO: SettingsDTO){
+        repository.apply {
+            val currentSetSettings = findById(id).get()
+
+            currentSetSettings.avatar = settingsDTO.avatar
+            currentSetSettings.email = settingsDTO.email
+            currentSetSettings.username = settingsDTO.nickname
+
+            repository.save(currentSetSettings)
+        }
+    }
+
     fun obscurePassword(user: User?) {
         user?.password = "XXX XXX XXX"
     }
