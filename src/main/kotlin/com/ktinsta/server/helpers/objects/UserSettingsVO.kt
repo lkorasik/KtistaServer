@@ -1,6 +1,6 @@
 package com.ktinsta.server.helpers.objects
 
-data class GetSettingsDTO(
+data class UserSettingsVO(
     val id: Long,
     val avatar: ByteArray?,
     val email: String?,
