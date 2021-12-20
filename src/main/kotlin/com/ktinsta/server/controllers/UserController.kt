@@ -1,19 +1,15 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
-import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import java.util.*
-import javax.servlet.http.Cookie
-import javax.servlet.http.HttpServletResponse
-import javax.validation.Valid
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,6 +19,10 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
     fun getProfile(@PathVariable(value = "id") userId: Long): ResponseEntity<UserVO> {
         val user = userService.retrieveUserData(userId)
         return ResponseEntity.ok(userAssembler.toUserVO(user))
-        //return ResponseEntity.ok(userAssembler.toProfileVO(user))
+    }
+
+    @GetMapping("/settings/{id}")
+    fun setSettings(@PathVariable(value = "id") userId: Long): ResponseEntity<UserSettingsVO>{
+        return ResponseEntity.ok(userService.getSettings(userId))
     }
 }
