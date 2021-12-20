@@ -1,7 +1,7 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.helpers.objects.SettingsDTO
+import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
@@ -20,7 +20,7 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
     }
 
     @GetMapping("/settings/{id}")
-    fun getSettings(@PathVariable(value = "id") userId: Long): ResponseEntity<SettingsDTO>{
+    fun setSettings(@PathVariable(value = "id") userId: Long): ResponseEntity<UserSettingsVO>{
         return ResponseEntity.ok(userService.getSettings(userId))
     }
 

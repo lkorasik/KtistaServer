@@ -3,7 +3,7 @@ package com.ktinsta.server.service
 import com.ktinsta.server.exceptions.*
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
-import com.ktinsta.server.helpers.objects.SettingsDTO
+import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -89,11 +89,12 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         throw InvalidPasswordException("Password for user: ${userDetails.username} is incorrect.")
     }
 
-    fun getSettings(id: Long): SettingsDTO{
+    fun getSettings(id: Long): UserSettingsVO{
         repository.apply {
             val currentSettings = findById(id).get()
 
-            return SettingsDTO(
+            return UserSettingsVO(
+                id = currentSettings.id,
                 avatar = currentSettings.avatar,
                 email = currentSettings.email,
                 nickname = currentSettings.username
