@@ -25,8 +25,8 @@ class UserController(val userRepository: UserRepository, val userService: UserSe
     }
 
     @PostMapping("/settings/{id}")
-    fun setSettings(@PathVariable(value = "id") userId: Long, @Valid @RequestBody settingsDTO: SettingsDTO): ResponseEntity<Void>{
-        userService.setSettings(userId, settingsDTO)
+    fun setSettings(@PathVariable(value = "id") userId: Long, @Valid @RequestBody userSettings: UserSettingsVO): ResponseEntity<Void>{
+        userService.setSettings(userId, userSettings)
         return ResponseEntity.ok().build()
     }
 }

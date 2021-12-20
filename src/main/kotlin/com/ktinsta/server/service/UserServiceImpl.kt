@@ -94,7 +94,6 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
             val currentSettings = findById(id).get()
 
             return UserSettingsVO(
-                id = currentSettings.id,
                 avatar = currentSettings.avatar,
                 email = currentSettings.email,
                 nickname = currentSettings.username
@@ -102,13 +101,13 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         }
     }
 
-    fun setSettings(id: Long, settingsDTO: SettingsDTO){
+    fun setSettings(id: Long, userSettings: UserSettingsVO){
         repository.apply {
             val currentSetSettings = findById(id).get()
 
-            currentSetSettings.avatar = settingsDTO.avatar
-            currentSetSettings.email = settingsDTO.email
-            currentSetSettings.username = settingsDTO.nickname
+            currentSetSettings.avatar = userSettings.avatar
+            currentSetSettings.email = userSettings.email
+            currentSetSettings.username = userSettings.nickname
 
             repository.save(currentSetSettings)
         }
