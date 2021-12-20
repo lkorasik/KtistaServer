@@ -13,7 +13,8 @@ import javax.validation.constraints.Pattern
 @Table(name = "`user`")
 @EntityListeners(UserListener::class)
 data class User(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
     @get: NotBlank
@@ -26,6 +27,8 @@ data class User(
     @get: NotBlank
     var password: String = "",
 
+    var avatar: ByteArray? = null,
+
     var status: String = "",
 
     @Pattern(regexp = "\\A(activated|deactivated)\\z")
@@ -33,5 +36,4 @@ data class User(
 
     @DateTimeFormat
     var createdAt: Date = Date.from(Instant.now())
-
 )
