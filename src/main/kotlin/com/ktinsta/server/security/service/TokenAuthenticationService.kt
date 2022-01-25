@@ -1,10 +1,7 @@
 package com.ktinsta.server.security.service
 
-import com.ktinsta.server.service.UserService
-import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
@@ -17,11 +14,12 @@ internal object TokenAuthenticationService {
     private val SECRET = "secret"
     private val TOKEN_PREFIX = "Bearer"
     private val AUTHORIZATION_HEADER_KEY = "Authorization"
+    private val ID_KEY = "userId"
 
     fun addAuthentication(response: HttpServletResponse, username: String, id: Long) {
         val jwt = Jwts.builder()
             .setSubject(username)
-            .claim("ID", id)
+            .claim(ID_KEY, id)
             .setExpiration(Date(System.currentTimeMillis() + TOKEN_EXPIRY))
             .signWith(SignatureAlgorithm.HS512, SECRET)
             .compact()
@@ -35,11 +33,16 @@ internal object TokenAuthenticationService {
             val user = Jwts.parser().setSigningKey(SECRET)
                 .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                 .body.subject
-            //val userId = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).body["ID"]
 
             if (user != null)
                 return UsernamePasswordAuthenticationToken(user, null, emptyList<GrantedAuthority>())
         }
         return null
+    }
+
+    fun getUserIdFromRequest(request: HttpServletRequest): Long {
+        val token = request.getHeader(AUTHORIZATION_HEADER_KEY).replace(TOKEN_PREFIX, "")
+        val id = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).body[ID_KEY]
+        return id.toString().toLong()
     }
 }
