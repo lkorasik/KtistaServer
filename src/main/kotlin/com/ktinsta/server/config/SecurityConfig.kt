@@ -3,6 +3,7 @@ package com.ktinsta.server.config
 import com.ktinsta.server.security.filters.JWTAuthenticationFilter
 import com.ktinsta.server.security.filters.JWTLoginFilter
 import com.ktinsta.server.service.AppUserDetailsService
+import com.ktinsta.server.service.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -20,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig(val userDetailsService: AppUserDetailsService) : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig(val userDetailsService: AppUserDetailsService, val userService: UserService) : WebSecurityConfigurerAdapter() {
 
     /*
     Определяет какие url пути должны быть защищенны.
@@ -37,7 +38,7 @@ class WebSecurityConfig(val userDetailsService: AppUserDetailsService) : WebSecu
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(
-                JWTLoginFilter("/api/auth/login", authenticationManager()),
+                JWTLoginFilter("/api/auth/login", authenticationManager(), userService),
                 UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(
                 JWTAuthenticationFilter(),
