@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class UserAssembler {
     fun toUserVO(user: User): UserVO {
         return UserVO(
-            image = byteArrayOf(1), //TODO: Дописать код для отправки аватарки
+            image = user.avatar,
             username = user.username,
             followers = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
             followings = 0
