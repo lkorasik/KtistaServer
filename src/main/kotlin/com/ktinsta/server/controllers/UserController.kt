@@ -3,19 +3,26 @@ package com.ktinsta.server.controllers
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
-import com.ktinsta.server.repository.UserRepository
+import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.io.File
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(val userRepository: UserRepository, val userService: UserServiceImpl, val userAssembler: UserAssembler) {
+class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService) {
 
     @GetMapping("/profile/{id}")
     fun getProfile(@PathVariable(value = "id") userId: Long): ResponseEntity<UserVO> {
-        val user = userService.retrieveUserData(userId)
+        var user = userService.retrieveUserData(userId)
+
+        user.avatar?.let {
+            val avatarThumbnail = avatarService.makeThumbnail(it)
+            user = user.copy(avatar = avatarThumbnail)
+        }
+
         return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 
