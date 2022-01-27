@@ -13,6 +13,12 @@ import java.util.*
 @Service
 class UserServiceImpl(val repository: UserRepository) : UserService {
 
+    fun isValid(registrationVO: RegistrationVO): Boolean {
+        return registrationVO.run {
+            email.isNotBlank() && password.isNotBlank() && username.isNotBlank()
+        }
+    }
+
     @Throws(UsernameUnavailableException::class)
     override fun attemptRegistration(userDetails: RegistrationVO): User {
         if (!usernameExists(userDetails.username)) {

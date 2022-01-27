@@ -15,9 +15,12 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/auth")
-class AuthController(val userRepository: UserRepository, val userService: UserServiceImpl, val userAssembler: UserAssembler) {
+class AuthController(val userService: UserServiceImpl, val userAssembler: UserAssembler) {
     @PostMapping("/registration")
     fun registration(@Valid @RequestBody userDetails: RegistrationVO, response: HttpServletResponse): ResponseEntity<Any> {
+        if(!userService.isValid(userDetails))
+            ResponseEntity.badRequest()
+
         val user = userService.attemptRegistration(userDetails)
 
         return ResponseEntity.ok(userAssembler.toAuthResponseVO(user))
