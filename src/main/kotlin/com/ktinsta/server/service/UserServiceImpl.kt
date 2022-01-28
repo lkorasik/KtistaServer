@@ -102,6 +102,8 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         repository.apply {
             val currentSetSettings = findById(id).get()
 
+            val img = userSettings.avatar?.let { Image(data = it) }
+
             currentSetSettings.avatar = userSettings.avatar?.let { Image(data = it) }
             currentSetSettings.email = userSettings.email
             currentSetSettings.username = userSettings.nickname

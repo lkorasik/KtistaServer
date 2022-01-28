@@ -4,7 +4,9 @@ import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.helpers.objects.PostVO
 import com.ktinsta.server.model.Image
 import com.ktinsta.server.model.Post
+import com.ktinsta.server.repository.ImageRepository
 import com.ktinsta.server.security.service.TokenAuthenticationService
+import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserService
 import org.springframework.http.ResponseEntity
@@ -18,16 +20,17 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/post/")
-class PostController(val postService: PostService, val userService: UserService){
+class PostController(val postService: PostService, val userService: UserService, val imageRepository: ImageService){
     @PostMapping("/create")
     fun createPost(@Valid @RequestBody postDetails: PostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
         val authorId = TokenAuthenticationService.getUserIdFromRequest(request)
         val author = userService.retrieveUserData(authorId)
 
         val image = Image(data = postDetails.data)
-        val post = Post(author = author!!, text = postDetails.text, image = image)
+        imageRepository.create(image)
 
-        postService.create(post, image)
+        val post = Post(author = author!!, text = postDetails.text, image = image)
+        postService.create(post)
 
         return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
