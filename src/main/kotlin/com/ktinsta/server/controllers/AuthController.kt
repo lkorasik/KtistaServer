@@ -2,7 +2,6 @@ package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.RegistrationVO
-import com.ktinsta.server.repository.UserRepository
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
