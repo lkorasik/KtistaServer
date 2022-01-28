@@ -49,7 +49,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
 
     override fun listUsers(currentUser: User): List<User> {
         return repository.findAll()
-            .mapTo(ArrayList(), { it })
+            .mapTo(ArrayList()) { it }
             .filter { it != currentUser }
     }
 
@@ -77,7 +77,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
 
     @Throws(UserStatusEmptyException::class)
     fun updateUserStatus(currentUser: User, userDetails: User): User {
-        if (!currentUser.status.isEmpty()) {
+        if (currentUser.status.isNotEmpty()) {
             currentUser.status = userDetails.status
             repository.save(currentUser)
             return currentUser

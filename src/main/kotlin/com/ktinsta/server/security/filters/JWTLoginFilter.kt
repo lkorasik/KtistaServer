@@ -3,9 +3,7 @@ package com.ktinsta.server.security.filters
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.security.service.TokenAuthenticationService
-import com.ktinsta.server.service.AppUserDetailsService
 import com.ktinsta.server.service.UserService
-import io.jsonwebtoken.SignatureException
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -17,9 +15,8 @@ import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import kotlin.jvm.Throws
 
-class JWTLoginFilter(url: String, authManager: AuthenticationManager, val userService: UserService)
+class JWTLoginFilter(url: String, authManager: AuthenticationManager, private val userService: UserService)
     :AbstractAuthenticationProcessingFilter(AntPathRequestMatcher(url)) {
 
     init {

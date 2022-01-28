@@ -3,7 +3,6 @@ package com.ktinsta.server.service
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.model.User
-import java.util.*
 
 interface UserService {
     fun attemptRegistration(userDetails: RegistrationVO): User

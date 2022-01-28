@@ -7,7 +7,6 @@ import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.io.File
 import javax.validation.Valid
 
 @RestController
