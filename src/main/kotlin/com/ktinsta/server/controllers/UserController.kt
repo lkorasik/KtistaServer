@@ -3,6 +3,7 @@ package com.ktinsta.server.controllers
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
+import com.ktinsta.server.model.Image
 import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
@@ -18,8 +19,9 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
         var user = userService.retrieveUserData(userId)
 
         user.avatar?.let {
-            val avatarThumbnail = avatarService.makeThumbnail(it)
-            user = user.copy(avatar = avatarThumbnail)
+            val avatarThumbnail = avatarService.makeThumbnail(it.data)
+            val avatar = Image(data = avatarThumbnail)
+            user = user.copy(avatar = avatar)
         }
 
         return ResponseEntity.ok(userAssembler.toUserVO(user))

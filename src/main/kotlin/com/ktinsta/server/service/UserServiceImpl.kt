@@ -4,6 +4,7 @@ import com.ktinsta.server.exceptions.*
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.helpers.objects.UserSettingsVO
+import com.ktinsta.server.model.Image
 import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -75,16 +76,6 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         return repository.findByUsername(username) != null
     }
 
-    @Throws(UserStatusEmptyException::class)
-    fun updateUserStatus(currentUser: User, userDetails: User): User {
-        if (currentUser.status.isNotEmpty()) {
-            currentUser.status = userDetails.status
-            repository.save(currentUser)
-            return currentUser
-        }
-        throw UserStatusEmptyException("A user's status can't be empty.")
-    }
-
     @Throws(InvalidPasswordException::class)
     fun validatePassword(loginDetails: LoginVO, userDetails: User) : User {
         val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)
@@ -100,7 +91,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
             val currentSettings = findById(id).get()
 
             return UserSettingsVO(
-                avatar = currentSettings.avatar,
+                avatar = currentSettings.avatar?.data,
                 email = currentSettings.email,
                 nickname = currentSettings.username
             )
@@ -111,7 +102,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         repository.apply {
             val currentSetSettings = findById(id).get()
 
-            currentSetSettings.avatar = userSettings.avatar
+            currentSetSettings.avatar = userSettings.avatar?.let { Image(data = it) }
             currentSetSettings.email = userSettings.email
             currentSetSettings.username = userSettings.nickname
 

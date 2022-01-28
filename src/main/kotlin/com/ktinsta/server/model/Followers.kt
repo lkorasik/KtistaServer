@@ -10,10 +10,12 @@ data class Followers(
     var id: Long = 0,
 
     @ManyToMany(targetEntity = User::class)
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn
     @get: NotBlank
-    var user: List<User?>? = null,
+    var user: List<User>,
 
+    @ManyToOne(targetEntity = User::class)
+    @JoinColumn
     @get: NotBlank
-    var followerId: Long = 0
+    var follower: List<User>
 )

@@ -24,8 +24,8 @@ class PostController(val postService: PostService, val userService: UserService)
         val authorId = TokenAuthenticationService.getUserIdFromRequest(request)
         val author = userService.retrieveUserData(authorId)
 
-        val post = Post(author = author, text = postDetails.text)
-        val image = Image(data = postDetails.data, post = post)
+        val image = Image(data = postDetails.data)
+        val post = Post(author = author!!, text = postDetails.text, image = image)
 
         postService.create(post, image)
 
