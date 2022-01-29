@@ -57,8 +57,7 @@ class `Test UserController` {
 
     @Test
     fun `Get profile`(){
-        //TODO("Решить пробелму из-за которой это тест срабатывает через раз")
-        val post = MockMvcRequestBuilders.get("/api/user/profile/1")
+        val post = MockMvcRequestBuilders.get("/api/user/profile")
             .header("Authorization", "Bearer $jwt")
 
         val result = mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk).andReturn()

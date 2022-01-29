@@ -4,19 +4,22 @@ import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.model.Image
+import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
 class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService, val imageService: ImageService) {
 
-    @GetMapping("/profile/{id}")
-    fun getProfile(@PathVariable(value = "id") userId: Long): ResponseEntity<UserVO> {
+    @GetMapping("/profile")
+    fun getProfile(request: HttpServletRequest): ResponseEntity<UserVO> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         var user = userService.retrieveUserData(userId)
 
         user.avatar?.let {
@@ -28,13 +31,15 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
         return ResponseEntity.ok(userAssembler.toUserVO(user))
     }
 
-    @GetMapping("/settings/{id}")
-    fun getSettings(@PathVariable(value = "id") userId: Long): ResponseEntity<UserSettingsVO>{
+    @GetMapping("/settings")
+    fun getSettings(request: HttpServletRequest): ResponseEntity<UserSettingsVO>{
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         return ResponseEntity.ok(userService.getSettings(userId))
     }
 
-    @PostMapping("/settings/{id}")
-    fun setSettings(@PathVariable(value = "id") userId: Long, @Valid @RequestBody userSettings: UserSettingsVO): ResponseEntity<Void>{
+    @PostMapping("/settings")
+    fun setSettings(@Valid @RequestBody userSettings: UserSettingsVO, request: HttpServletRequest): ResponseEntity<Void>{
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         userService.setSettings(userId, userSettings)
         return ResponseEntity.ok().build()
     }
