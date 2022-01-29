@@ -7,6 +7,7 @@ import com.ktinsta.server.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.ImageService
+import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService, val imageService: ImageService) {
+class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService, val imageService: ImageService, val postService: PostService) {
 
     @GetMapping("/profile")
     fun getProfile(request: HttpServletRequest): ResponseEntity<UserVO> {
@@ -42,5 +43,14 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         userService.setSettings(userId, userSettings)
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/all-my-posts")
+    fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<Any> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val user = userService.retrieveUserData(userId)
+        val posts = postService.getAllPosts(user)
+
+        return ResponseEntity.ok(posts)
     }
 }
