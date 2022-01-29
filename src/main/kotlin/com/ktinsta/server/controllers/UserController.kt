@@ -1,8 +1,9 @@
 package com.ktinsta.server.controllers
 
+import com.ktinsta.server.components.PostAssembler
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.UserSettingsVO
-import com.ktinsta.server.helpers.objects.UserVO
+import com.ktinsta.server.helpers.objects.FullUserVO
 import com.ktinsta.server.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
@@ -16,10 +17,16 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService, val imageService: ImageService, val postService: PostService) {
+class UserController(
+    val userService: UserServiceImpl,
+    val userAssembler: UserAssembler,
+    val avatarService: AvatarService,
+    val imageService: ImageService,
+    val postService: PostService,
+    val postAssembler: PostAssembler) {
 
     @GetMapping("/profile")
-    fun getProfile(request: HttpServletRequest): ResponseEntity<UserVO> {
+    fun getProfile(request: HttpServletRequest): ResponseEntity<FullUserVO> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         var user = userService.retrieveUserData(userId)
 
@@ -29,7 +36,7 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
             user = user.copy(avatar = avatar)
         }
 
-        return ResponseEntity.ok(userAssembler.toUserVO(user))
+        return ResponseEntity.ok(userAssembler.toFullUserVO(user))
     }
 
     @GetMapping("/settings")
@@ -51,6 +58,6 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
         val user = userService.retrieveUserData(userId)
         val posts = postService.getAllPosts(user)
 
-        return ResponseEntity.ok(posts)
+        return ResponseEntity.ok(posts?.map { postAssembler.toPostVO(it) })
     }
 }

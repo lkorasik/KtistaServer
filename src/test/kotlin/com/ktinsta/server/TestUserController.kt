@@ -1,9 +1,7 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.ktinsta.server.helpers.objects.*
-import com.ktinsta.server.repository.PostRepository
 import com.ktinsta.server.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -61,7 +59,7 @@ class `Test UserController` {
             .header("Authorization", "Bearer $jwt")
 
         val result = mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk).andReturn()
-        val user = jacksonObjectMapper().readValue(result.response.contentAsByteArray, UserVO::class.java)
+        val user = jacksonObjectMapper().readValue(result.response.contentAsByteArray, FullUserVO::class.java)
 
         assertThat(user.username).isEqualTo("Test")
         assertThat(user.followers).isEqualTo(0)

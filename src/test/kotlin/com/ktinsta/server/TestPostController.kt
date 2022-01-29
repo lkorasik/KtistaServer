@@ -2,7 +2,7 @@ package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.helpers.objects.LoginVO
-import com.ktinsta.server.helpers.objects.PostVO
+import com.ktinsta.server.helpers.objects.CreatePostVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.repository.PostRepository
 import com.ktinsta.server.repository.UserRepository
@@ -60,7 +60,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post`(){
-        val newPost = PostVO("Test", ByteArray(1024))
+        val newPost = CreatePostVO("Test", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
@@ -72,7 +72,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post without text`(){
-        val newPost = PostVO("", ByteArray(1024))
+        val newPost = CreatePostVO("", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
