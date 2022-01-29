@@ -2,9 +2,10 @@ package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.helpers.objects.LoginVO
+import com.ktinsta.server.helpers.objects.PostVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
+import com.ktinsta.server.repository.PostRepository
 import com.ktinsta.server.repository.UserRepository
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,20 +19,25 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class `Test login` {
+class `Test PostController` {
     @Autowired
-    private lateinit var repository: UserRepository
+    private lateinit var userRepository: UserRepository
+    @Autowired
+    private lateinit var postRepository: PostRepository
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @AfterEach
     fun `Clear database`(){
-        repository.deleteAll()
+        postRepository.deleteAll()
+        userRepository.deleteAll()
     }
 
+    private lateinit var jwt: String
+
     @BeforeEach
-    fun `Register user`(){
+    fun `Register new user and login`(){
         val registration = RegistrationVO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
@@ -39,10 +45,7 @@ class `Test login` {
             .contentType(MediaType.APPLICATION_JSON)
 
         mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk)
-    }
 
-    @Test
-    fun `Login user`(){
         val login = LoginVO("Test", "123456")
 
         val post2 = MockMvcRequestBuilders.post("/api/auth/login")
@@ -52,6 +55,30 @@ class `Test login` {
         val response = mockMvc.perform(post2).andExpect(MockMvcResultMatchers.status().isOk).andReturn()
         val authHeaderContent = response.response.getHeaderValue("Authorization").toString()
 
-        assertThat(authHeaderContent).matches("Bearer [A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*")
+        jwt = authHeaderContent.split(" ")[1]
+    }
+
+    @Test
+    fun `Create new post`(){
+        val newPost = PostVO(1, "Test", ByteArray(1024))
+
+        val post = MockMvcRequestBuilders.post("/api/post/create")
+            .header("Authorization", "Bearer $jwt")
+            .content(jacksonObjectMapper().writeValueAsString(newPost))
+            .contentType(MediaType.APPLICATION_JSON)
+
+        mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun `Create new post without text`(){
+        val newPost = PostVO(1, "", ByteArray(1024))
+
+        val post = MockMvcRequestBuilders.post("/api/post/create")
+            .header("Authorization", "Bearer $jwt")
+            .content(jacksonObjectMapper().writeValueAsString(newPost))
+            .contentType(MediaType.APPLICATION_JSON)
+
+        mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk)
     }
 }
