@@ -60,7 +60,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post`(){
-        val newPost = PostVO(1, "Test", ByteArray(1024))
+        val newPost = PostVO("Test", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
@@ -72,7 +72,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post without text`(){
-        val newPost = PostVO(1, "", ByteArray(1024))
+        val newPost = PostVO("", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
