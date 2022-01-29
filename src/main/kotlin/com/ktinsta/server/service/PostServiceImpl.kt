@@ -8,7 +8,7 @@ import com.ktinsta.server.repository.PostRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PostServiceImpl(val postRepository: PostRepository, val imageRepository: ImageRepository): PostService {
+class PostServiceImpl(val postRepository: PostRepository): PostService {
     override fun create(postDetails: Post) {
         postRepository.save(postDetails)
     }

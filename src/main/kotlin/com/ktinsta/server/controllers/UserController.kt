@@ -4,10 +4,10 @@ import com.ktinsta.server.components.PostAssembler
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.FullUserVO
+import com.ktinsta.server.helpers.objects.ReturnPostVO
 import com.ktinsta.server.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
-import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
@@ -21,9 +21,9 @@ class UserController(
     val userService: UserServiceImpl,
     val userAssembler: UserAssembler,
     val avatarService: AvatarService,
-    val imageService: ImageService,
     val postService: PostService,
-    val postAssembler: PostAssembler) {
+    val postAssembler: PostAssembler
+) {
 
     @GetMapping("/profile")
     fun getProfile(request: HttpServletRequest): ResponseEntity<FullUserVO> {
@@ -53,7 +53,7 @@ class UserController(
     }
 
     @GetMapping("/all-my-posts")
-    fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<Any> {
+    fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val user = userService.retrieveUserData(userId)
         val posts = postService.getAllPosts(user)
