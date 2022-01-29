@@ -29,6 +29,7 @@ dependencies {
 	implementation("net.coobird:thumbnailator:0.4.16")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("org.postgresql:postgresql")
+	testImplementation("org.assertj:assertj-core:3.22.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 }

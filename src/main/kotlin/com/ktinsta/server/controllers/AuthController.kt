@@ -1,8 +1,10 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
+import com.ktinsta.server.helpers.objects.AuthResponseVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.service.UserServiceImpl
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,9 +18,9 @@ import javax.validation.Valid
 @RequestMapping("/api/auth")
 class AuthController(val userService: UserServiceImpl, val userAssembler: UserAssembler) {
     @PostMapping("/registration")
-    fun registration(@Valid @RequestBody userDetails: RegistrationVO, response: HttpServletResponse): ResponseEntity<Any> {
+    fun registration(@Valid @RequestBody userDetails: RegistrationVO, response: HttpServletResponse): ResponseEntity<AuthResponseVO> {
         if(!userService.isValid(userDetails))
-            ResponseEntity.badRequest()
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
 
         val user = userService.attemptRegistration(userDetails)
 
