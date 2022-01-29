@@ -1,7 +1,7 @@
 package com.ktinsta.server.components
 
-import com.ktinsta.server.helpers.objects.UserVO
-import com.ktinsta.server.model.User
+import com.ktinsta.server.controllers.dto.UserVO
+import com.ktinsta.server.storage.model.User
 import org.springframework.stereotype.Component
 
 @Component
