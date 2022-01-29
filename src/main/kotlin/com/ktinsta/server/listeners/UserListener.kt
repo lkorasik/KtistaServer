@@ -7,7 +7,6 @@ import javax.persistence.PreUpdate
 
 class UserListener {
     @PrePersist
-    @PreUpdate
     fun hashPassword(user: User) {
         user.password = BCryptPasswordEncoder().encode(user.password)
     }

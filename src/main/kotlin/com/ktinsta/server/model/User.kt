@@ -27,12 +27,9 @@ data class User(
     @get: NotBlank
     var password: String = "",
 
-    var avatar: ByteArray? = null,
-
-    var status: String = "",
-
-    @Pattern(regexp = "\\A(activated|deactivated)\\z")
-    var accountStatus: String = "activated",
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn
+    var avatar: Image? = null,
 
     @DateTimeFormat
     var createdAt: Date = Date.from(Instant.now())

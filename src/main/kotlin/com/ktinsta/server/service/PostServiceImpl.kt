@@ -8,8 +8,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostServiceImpl(val postRepository: PostRepository, val imageRepository: ImageRepository): PostService {
-    override fun create(postDetails: Post, imageDetails: Image) {
+    override fun create(postDetails: Post) {
         postRepository.save(postDetails)
-        imageRepository.save(imageDetails)
+    }
+}
+
+@Service
+class ImageService(val imageRepository: ImageRepository){
+    fun create(image: Image){
+        imageRepository.save(image)
     }
 }

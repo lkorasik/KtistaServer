@@ -8,11 +8,11 @@ data class PostLike(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @ManyToOne(targetEntity = Post::class)
-    @JoinColumn(referencedColumnName = "id")
-    var post: Post? = null,
+    @ManyToOne
+    @JoinColumn
+    var post: Post,
 
-    @ManyToOne(targetEntity = User::class)
-    @JoinColumn(referencedColumnName = "id")
-    var user: User? = null
+    @ManyToOne
+    @JoinColumn
+    var user: User
 )

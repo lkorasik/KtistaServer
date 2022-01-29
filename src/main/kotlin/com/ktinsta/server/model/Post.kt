@@ -11,18 +11,15 @@ data class Post(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    //TODO: Прописать каскадное удаление
-    @ManyToOne(targetEntity = User::class, cascade= [CascadeType.REMOVE])
-    @JoinColumn(referencedColumnName = "id")
-    var author: User? = null,
+    @ManyToOne(cascade = [CascadeType.REMOVE])
+    @JoinColumn
+    var author: User,
+
+    @OneToOne
+    @JoinColumn
+    var image: Image,
 
     var text: String = "",
-
-    var likesCounter: Int = 0,
-
-    var dislikesCounter: Int = 0,
-
-    var commentCounter: Int = 0,
 
     @DateTimeFormat
     var createdAt: Date = Date.from(Instant.now())

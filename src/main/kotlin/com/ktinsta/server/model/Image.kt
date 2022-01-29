@@ -11,12 +11,5 @@ data class Image(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @OneToOne(targetEntity = Post::class)
-    @JoinColumn(referencedColumnName = "id")
-    var post: Post? = null,
-
-    var data: ByteArray? = null,
-
-    @DateTimeFormat
-    var createdAt: Date = Date.from(Instant.now())
+    var data: ByteArray,
 )
