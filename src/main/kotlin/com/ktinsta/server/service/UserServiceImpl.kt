@@ -1,6 +1,9 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.exceptions.*
+import com.ktinsta.server.exceptions.InvalidPasswordException
+import com.ktinsta.server.exceptions.InvalidUserIdException
+import com.ktinsta.server.exceptions.InvalidUsernameException
+import com.ktinsta.server.exceptions.UsernameUnavailableException
 import com.ktinsta.server.helpers.objects.LoginVO
 import com.ktinsta.server.helpers.objects.RegistrationVO
 import com.ktinsta.server.helpers.objects.UserSettingsVO
@@ -9,7 +12,6 @@ import com.ktinsta.server.model.User
 import com.ktinsta.server.repository.UserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class UserServiceImpl(val repository: UserRepository) : UserService {

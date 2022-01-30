@@ -1,12 +1,13 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
+import com.ktinsta.server.helpers.objects.FollowingVO
 import com.ktinsta.server.helpers.objects.UserSettingsVO
 import com.ktinsta.server.helpers.objects.UserVO
 import com.ktinsta.server.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
-import com.ktinsta.server.service.ImageService
+import com.ktinsta.server.service.FollowersService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,12 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
-class UserController(val userService: UserServiceImpl, val userAssembler: UserAssembler, val avatarService: AvatarService, val imageService: ImageService) {
+class UserController(
+    val userService: UserServiceImpl,
+    val userAssembler: UserAssembler,
+    val avatarService: AvatarService,
+    val followersService: FollowersService
+) {
 
     @GetMapping("/profile")
     fun getProfile(request: HttpServletRequest): ResponseEntity<UserVO> {
@@ -41,6 +47,22 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
     fun setSettings(@Valid @RequestBody userSettings: UserSettingsVO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         userService.setSettings(userId, userSettings)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/subscribe")
+    fun subscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val username = userService.retrieveUserData(userId).username
+        followersService.subscribe(username, following.username)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/unsubscribe")
+    fun unsubscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val username = userService.retrieveUserData(userId).username
+        followersService.unsubscribe(username, following.username)
         return ResponseEntity.ok().build()
     }
 }
