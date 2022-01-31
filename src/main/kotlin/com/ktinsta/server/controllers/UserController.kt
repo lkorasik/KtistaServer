@@ -2,10 +2,10 @@ package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.PostAssembler
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.helpers.objects.UserSettingsVO
-import com.ktinsta.server.helpers.objects.FullUserVO
+import com.ktinsta.server.controllers.dto.FullUserVO
+import com.ktinsta.server.controllers.dto.UserSettingsVO
 import com.ktinsta.server.helpers.objects.ReturnPostVO
-import com.ktinsta.server.model.Image
+import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.PostService

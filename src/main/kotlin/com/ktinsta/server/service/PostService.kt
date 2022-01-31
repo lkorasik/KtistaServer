@@ -1,7 +1,8 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.model.Post
-import com.ktinsta.server.model.User
+
+import com.ktinsta.server.storage.model.Post
+import com.ktinsta.server.storage.model.User
 
 interface PostService {
     fun create(postDetails: Post)

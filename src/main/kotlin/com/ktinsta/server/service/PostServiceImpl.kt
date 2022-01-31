@@ -1,10 +1,10 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.model.Image
-import com.ktinsta.server.model.Post
-import com.ktinsta.server.model.User
-import com.ktinsta.server.repository.ImageRepository
-import com.ktinsta.server.repository.PostRepository
+import com.ktinsta.server.storage.model.Image
+import com.ktinsta.server.storage.model.Post
+import com.ktinsta.server.storage.model.User
+import com.ktinsta.server.storage.repository.ImageRepository
+import com.ktinsta.server.storage.repository.PostRepository
 import org.springframework.stereotype.Service
 
 @Service

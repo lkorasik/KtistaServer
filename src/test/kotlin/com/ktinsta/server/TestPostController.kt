@@ -1,11 +1,11 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.helpers.objects.LoginVO
-import com.ktinsta.server.helpers.objects.CreatePostVO
-import com.ktinsta.server.helpers.objects.RegistrationVO
-import com.ktinsta.server.repository.PostRepository
-import com.ktinsta.server.repository.UserRepository
+import com.ktinsta.server.controllers.dto.LoginVO
+import com.ktinsta.server.controllers.dto.PostVO
+import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.storage.repository.PostRepository
+import com.ktinsta.server.storage.repository.UserRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
