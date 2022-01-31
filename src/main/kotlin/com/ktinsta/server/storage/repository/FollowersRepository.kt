@@ -1,6 +1,6 @@
-package com.ktinsta.server.repository
+package com.ktinsta.server.storage.repository
 
-import com.ktinsta.server.model.Followers
+import com.ktinsta.server.storage.model.Followers
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

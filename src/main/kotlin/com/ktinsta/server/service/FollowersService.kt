@@ -1,7 +1,7 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.model.Followers
-import com.ktinsta.server.repository.FollowersRepository
+import com.ktinsta.server.storage.repository.FollowersRepository
+import com.ktinsta.server.storage.model.Followers
 import org.springframework.stereotype.Service
 
 @Service
