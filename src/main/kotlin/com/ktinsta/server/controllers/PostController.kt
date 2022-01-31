@@ -1,7 +1,7 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.controllers.dto.PostVO
+import com.ktinsta.server.controllers.dto.CreatePostVO
 import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.storage.model.Post
 import com.ktinsta.server.security.service.TokenAuthenticationService
@@ -21,7 +21,7 @@ import javax.validation.Valid
 @RequestMapping("/api/post/")
 class PostController(val postService: PostService, val userService: UserService, val imageRepository: ImageService){
     @PostMapping("/create")
-    fun createPost(@Valid @RequestBody postDetails: PostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
+    fun createPost(@Valid @RequestBody postDetails: CreatePostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
         val authorId = TokenAuthenticationService.getUserIdFromRequest(request)
         val author = userService.retrieveUserData(authorId)
 
