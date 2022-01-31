@@ -1,8 +1,8 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.ktinsta.server.controllers.dto.CreatePostVO
 import com.ktinsta.server.controllers.dto.LoginVO
-import com.ktinsta.server.controllers.dto.PostVO
 import com.ktinsta.server.controllers.dto.RegistrationVO
 import com.ktinsta.server.storage.repository.PostRepository
 import com.ktinsta.server.storage.repository.UserRepository

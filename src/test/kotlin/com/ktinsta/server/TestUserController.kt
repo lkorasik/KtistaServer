@@ -1,9 +1,9 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.controllers.dto.LoginVO
-import com.ktinsta.server.controllers.dto.RegistrationVO
-import com.ktinsta.server.controllers.dto.UserVO
+import com.ktinsta.server.controllers.dto.*
+import com.ktinsta.server.helpers.objects.ReturnPostVO
+import com.ktinsta.server.storage.repository.PostRepository
 import com.ktinsta.server.storage.repository.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach

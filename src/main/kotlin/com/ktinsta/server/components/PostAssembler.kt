@@ -1,7 +1,7 @@
 package com.ktinsta.server.components
 
 import com.ktinsta.server.helpers.objects.ReturnPostVO
-import com.ktinsta.server.model.Post
+import com.ktinsta.server.storage.model.Post
 import org.springframework.stereotype.Component
 
 @Component
