@@ -4,7 +4,6 @@ import com.ktinsta.server.listeners.UserListener
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
 import java.util.*
-import javax.persistence.Entity
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 

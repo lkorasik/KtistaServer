@@ -1,7 +1,7 @@
 package com.ktinsta.server.storage.model
 
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
+
 
 @Entity
 data class Followers(
@@ -9,13 +9,11 @@ data class Followers(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @ManyToMany(targetEntity = User::class)
+    @ManyToOne
     @JoinColumn
-    @get: NotBlank
-    var user: List<User>,
+    var user: User,
 
-    @ManyToOne(targetEntity = User::class)
+    @ManyToOne
     @JoinColumn
-    @get: NotBlank
-    var follower: List<User>
+    var follower: User
 )

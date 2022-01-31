@@ -4,10 +4,12 @@ import com.ktinsta.server.components.PostAssembler
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.controllers.dto.FullUserVO
 import com.ktinsta.server.controllers.dto.UserSettingsVO
+import com.ktinsta.server.helpers.objects.FollowingVO
 import com.ktinsta.server.helpers.objects.ReturnPostVO
 import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
+import com.ktinsta.server.service.FollowersService
 import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.ResponseEntity
@@ -21,6 +23,7 @@ class UserController(
     val userService: UserServiceImpl,
     val userAssembler: UserAssembler,
     val avatarService: AvatarService,
+    val followersService: FollowersService,
     val postService: PostService,
     val postAssembler: PostAssembler
 ) {
@@ -49,6 +52,22 @@ class UserController(
     fun setSettings(@Valid @RequestBody userSettings: UserSettingsVO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         userService.setSettings(userId, userSettings)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/subscribe")
+    fun subscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val username = userService.retrieveUserData(userId).username
+        followersService.subscribe(username, following.username)
+        return ResponseEntity.ok().build()
+    }
+
+    @PutMapping("/unsubscribe")
+    fun unsubscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val username = userService.retrieveUserData(userId).username
+        followersService.unsubscribe(username, following.username)
         return ResponseEntity.ok().build()
     }
 
