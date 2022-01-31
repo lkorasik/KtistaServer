@@ -3,6 +3,7 @@ package com.ktinsta.server.controllers
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.helpers.objects.RegistrationVO
+import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.service.UserServiceImpl
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,4 +27,10 @@ class AuthController(val userService: UserServiceImpl, val userAssembler: UserAs
 
         return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
+
+    /**
+     * Stub for swagger
+     */
+    @PostMapping("/login")
+    fun login(@RequestBody user: AccountCredentials) {}
 }

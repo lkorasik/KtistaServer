@@ -30,6 +30,7 @@ class WebSecurityConfig(val userDetailsService: AppUserDetailsService, val userS
         http.csrf().disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(
@@ -38,7 +39,6 @@ class WebSecurityConfig(val userDetailsService: AppUserDetailsService, val userS
             .addFilterBefore(
                 JWTAuthenticationFilter(),
                 UsernamePasswordAuthenticationFilter::class.java)
-
     }
 
     /*
