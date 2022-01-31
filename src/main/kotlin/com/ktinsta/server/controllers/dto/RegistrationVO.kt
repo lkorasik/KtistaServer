@@ -1,4 +1,4 @@
-package com.ktinsta.server.helpers.objects
+package com.ktinsta.server.controllers.dto
 
 data class RegistrationVO(
     val username: String,

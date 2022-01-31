@@ -1,8 +1,8 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.helpers.objects.LoginVO
-import com.ktinsta.server.helpers.objects.RegistrationVO
-import com.ktinsta.server.model.User
+import com.ktinsta.server.controllers.dto.LoginVO
+import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.storage.model.User
 
 interface UserService {
     fun attemptRegistration(userDetails: RegistrationVO): User

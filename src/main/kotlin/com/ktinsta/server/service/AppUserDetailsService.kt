@@ -1,6 +1,6 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.repository.UserRepository
+import com.ktinsta.server.storage.repository.UserRepository
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails

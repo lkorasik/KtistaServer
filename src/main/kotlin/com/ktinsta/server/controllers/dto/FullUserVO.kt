@@ -1,6 +1,6 @@
-package com.ktinsta.server.helpers.objects
+package com.ktinsta.server.controllers.dto
 
-data class UserVO(
+data class FullUserVO(
     val image: ByteArray? = null,
     val username: String,
     val followers: Int,
