@@ -1,10 +1,9 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.helpers.objects.PostVO
-import com.ktinsta.server.model.Image
-import com.ktinsta.server.model.Post
-import com.ktinsta.server.repository.ImageRepository
+import com.ktinsta.server.controllers.dto.PostVO
+import com.ktinsta.server.storage.model.Image
+import com.ktinsta.server.storage.model.Post
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.PostService

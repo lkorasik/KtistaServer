@@ -1,4 +1,4 @@
-package com.ktinsta.server.model
+package com.ktinsta.server.storage.model
 
 import javax.persistence.*
 import javax.validation.constraints.NotBlank

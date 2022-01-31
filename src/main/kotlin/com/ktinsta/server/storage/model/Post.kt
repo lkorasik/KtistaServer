@@ -1,4 +1,4 @@
-package com.ktinsta.server.model
+package com.ktinsta.server.storage.model
 
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
