@@ -13,7 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket
 @Configuration
 class SwaggerConfig {
     private fun apiKey(): ApiKey {
-        return ApiKey("JWT", AUTHORIZATION_HEADER, "header")
+        return ApiKey("JWT", "Authorization", "header")
     }
 
     private fun apiInfo(): ApiInfo {
@@ -30,7 +30,7 @@ class SwaggerConfig {
 
     @Bean
     fun api(): Docket {
-        return Docket(DocumentationType.OAS_30)
+        return Docket(DocumentationType.SWAGGER_2)
             .apiInfo(apiInfo())
             .securityContexts(listOf(securityContext()))
             .securitySchemes(listOf<SecurityScheme>(apiKey()))
@@ -49,9 +49,5 @@ class SwaggerConfig {
         val authorizationScopes = arrayOfNulls<AuthorizationScope>(1)
         authorizationScopes[0] = authorizationScope
         return listOf(SecurityReference("JWT", authorizationScopes))
-    }
-
-    companion object {
-        const val AUTHORIZATION_HEADER = "Authorization"
     }
 }
