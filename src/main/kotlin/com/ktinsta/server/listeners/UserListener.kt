@@ -1,12 +1,12 @@
 package com.ktinsta.server.listeners
 
-import com.ktinsta.server.storage.model.User
+import com.ktinsta.server.storage.model.FullUser
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.PrePersist
 
 class UserListener {
     @PrePersist
-    fun hashPassword(user: User) {
+    fun hashPassword(user: FullUser) {
         user.password = BCryptPasswordEncoder().encode(user.password)
     }
 }

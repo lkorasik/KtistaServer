@@ -6,6 +6,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
+@Table(name = "post")
 data class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +14,28 @@ data class Post(
 
     @ManyToOne(cascade = [CascadeType.REMOVE])
     @JoinColumn
-    var author: User,
+    var author: FullUser,
+
+    @OneToOne
+    @JoinColumn
+    var image: Image,
+
+    var text: String = "",
+
+    @DateTimeFormat
+    var createdAt: Date = Date.from(Instant.now())
+)
+
+@Entity
+@Table(name = "post")
+data class BriefPost(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long = 0,
+
+    @ManyToOne(cascade = [CascadeType.REMOVE])
+    @JoinColumn
+    var author: BriefUser,
 
     @OneToOne
     @JoinColumn
