@@ -7,19 +7,24 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserAssembler {
-    fun toFullUserVO(fullUser: FullUser): FullUserVO {
+    fun toFullUserVO(user: FullUser): FullUserVO {
         return FullUserVO(
-            image = fullUser.avatar?.data,
-            username = fullUser.username,
+            image = user.avatar?.data,
+            username = user.username,
             followers = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
             followings = 0
         )
     }
 
-    fun toShortUserVO(fullUser: FullUser): ShortUserVO {
+    fun toShortUserVO(user: FullUser): ShortUserVO {
         return  ShortUserVO(
-            image = fullUser.avatar?.data,
-            username = fullUser.username
+            image = user.avatar?.data,
+            username = user.username
         )
     }
+
+//    fun toUserListVO(users: List<User>): UserListVO {
+//        val userListVO = users.map { toUserVO(it) }
+//        return UserListVO(userListVO)
+//    }
 }

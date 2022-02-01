@@ -7,14 +7,14 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "post")
-data class Post(
+data class BriefPost(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
     @ManyToOne(cascade = [CascadeType.REMOVE])
     @JoinColumn
-    var author: FullUser,
+    var author: BriefUser,
 
     @OneToOne
     @JoinColumn
