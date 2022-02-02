@@ -6,6 +6,7 @@ import com.ktinsta.server.controllers.dto.FullUserVO
 import com.ktinsta.server.controllers.dto.UserSettingsVO
 import com.ktinsta.server.helpers.objects.FollowingVO
 import com.ktinsta.server.helpers.objects.ReturnPostVO
+import com.ktinsta.server.helpers.objects.ShortUserVO
 import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
@@ -78,5 +79,22 @@ class UserController(
         val posts = postService.getAllPosts(user)
 
         return ResponseEntity.ok(posts?.map { postAssembler.toPostVO(it) })
+    }
+
+    @GetMapping("/all-followings")
+    fun getAllMyFollowings(request: HttpServletRequest): ResponseEntity<List<ShortUserVO>> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val followings = followersService.getAllFollowings(userId)
+
+        return ResponseEntity.ok(followings.map { userAssembler.toShortUserVO(it.follower) })
+    }
+
+    @GetMapping("/feed")
+    fun getFeed(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val user = userService.retrieveUserData(userId)
+        val feed = postService.getFeed(user)
+
+        return ResponseEntity.ok(feed.map { postAssembler.toPostVO(it) })
     }
 }

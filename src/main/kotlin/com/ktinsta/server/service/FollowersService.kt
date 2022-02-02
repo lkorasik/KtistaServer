@@ -34,4 +34,12 @@ class FollowersService(val userService: UserService, val repository: FollowersRe
 
         repository.delete(follow)
     }
+
+    fun getAllFollowings(id: Long): List<Followers> {
+        val user = userService.retrieveUserData(id)
+        if(user != null)
+            return repository.findByUser(user)
+        else
+            return emptyList()
+    }
 }
