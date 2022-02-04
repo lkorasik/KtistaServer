@@ -1,36 +1,34 @@
-package com.ktinsta.server.model
+package com.ktinsta.server.storage.model
 
+import com.ktinsta.server.listeners.UserListener
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
-/*
 @Entity
-data class Comment(
+@Table(name = "`user`")
+@EntityListeners(UserListener::class)
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @ManyToOne(targetEntity = Post::class)
-    @JoinColumn(referencedColumnName = "id")
     @get: NotBlank
-    var post: Post? = null,
+    var email: String = "",
 
-    @ManyToOne(targetEntity = User::class)
-    @JoinColumn(referencedColumnName = "id")
-    var user: User? = null,
+    @Column(unique = true)
+    @get: NotBlank
+    var username: String = "",
 
     @get: NotBlank
-    var text: String = "",
+    var password: String = "",
 
-    @get: NotBlank
-    var likesCounter: Int = 0,
-
-    @get: NotBlank
-    var dislikesCounter: Int = 0,
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn
+    var avatar: Image? = null,
 
     @DateTimeFormat
     var createdAt: Date = Date.from(Instant.now())
-)*/
+)
