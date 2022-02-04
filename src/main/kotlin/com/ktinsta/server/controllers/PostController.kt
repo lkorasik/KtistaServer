@@ -1,13 +1,13 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.helpers.objects.PostVO
-import com.ktinsta.server.model.Image
-import com.ktinsta.server.model.Post
+import com.ktinsta.server.controllers.dto.CreatePostVO
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserService
+import com.ktinsta.server.storage.model.Image
+import com.ktinsta.server.storage.model.Post
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -26,7 +26,7 @@ class PostController(val postService: PostService, val userService: UserService,
 
     @PostMapping("/create")
     @ApiOperation(value = "Create new post")
-    fun createPost(@Valid @RequestBody postDetails: PostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
+    fun createPost(@Valid @RequestBody postDetails: CreatePostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
         val authorId = TokenAuthenticationService.getUserIdFromRequest(request)
         val author = userService.retrieveUserData(authorId)
 

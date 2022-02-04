@@ -1,13 +1,13 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.helpers.objects.UserSettingsVO
-import com.ktinsta.server.helpers.objects.UserVO
-import com.ktinsta.server.model.Image
+import com.ktinsta.server.controllers.dto.UserSettingsVO
+import com.ktinsta.server.helpers.objects.ShortUserVO
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.AvatarService
 import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.UserServiceImpl
+import com.ktinsta.server.storage.model.Image
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -22,7 +22,7 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
 
     @GetMapping("/profile")
     @ApiOperation(value = "Get user information like username, avatar and etc.")
-    fun getProfile(request: HttpServletRequest): ResponseEntity<UserVO> {
+    fun getProfile(request: HttpServletRequest): ResponseEntity<ShortUserVO> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         var user = userService.retrieveUserData(userId)
 
@@ -32,7 +32,7 @@ class UserController(val userService: UserServiceImpl, val userAssembler: UserAs
             user = user.copy(avatar = avatar)
         }
 
-        return ResponseEntity.ok(userAssembler.toUserVO(user))
+        return ResponseEntity.ok(userAssembler.toShortUserVO(user))
     }
 
     @GetMapping("/settings")

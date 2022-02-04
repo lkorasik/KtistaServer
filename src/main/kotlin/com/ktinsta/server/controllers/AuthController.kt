@@ -2,7 +2,7 @@ package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.helpers.objects.RegistrationVO
+import com.ktinsta.server.controllers.dto.RegistrationVO
 import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.service.UserServiceImpl
 import io.swagger.annotations.Api
