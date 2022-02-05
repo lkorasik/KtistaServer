@@ -2,12 +2,12 @@ package com.ktinsta.server.components
 
 import com.ktinsta.server.controllers.dto.FullUserVO
 import com.ktinsta.server.helpers.objects.ShortUserVO
-import com.ktinsta.server.storage.model.User
+import com.ktinsta.server.storage.model.FullUser
 import org.springframework.stereotype.Component
 
 @Component
 class UserAssembler {
-    fun toFullUserVO(user: User): FullUserVO {
+    fun toFullUserVO(user: FullUser): FullUserVO {
         return FullUserVO(
             image = user.avatar?.data,
             username = user.username,
@@ -16,7 +16,7 @@ class UserAssembler {
         )
     }
 
-    fun toShortUserVO(user: User): ShortUserVO {
+    fun toShortUserVO(user: FullUser): ShortUserVO {
         return  ShortUserVO(
             image = user.avatar?.data,
             username = user.username

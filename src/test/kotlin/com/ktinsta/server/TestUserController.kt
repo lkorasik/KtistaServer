@@ -4,7 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.controllers.dto.*
 import com.ktinsta.server.helpers.objects.ReturnPostVO
 import com.ktinsta.server.storage.repository.PostRepository
-import com.ktinsta.server.storage.repository.UserRepository
+import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class `Test UserController` {
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var fullUserRepository: FullUserRepository
     @Autowired
     private lateinit var postRepository: PostRepository
 
@@ -31,7 +31,7 @@ class `Test UserController` {
     @AfterEach
     fun `Clear database`(){
         postRepository.deleteAll()
-        userRepository.deleteAll()
+        fullUserRepository.deleteAll()
     }
 
     private lateinit var jwt: String

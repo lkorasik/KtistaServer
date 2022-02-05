@@ -31,7 +31,7 @@ class UserController(
     @ApiOperation(value = "Get user information like username, avatar and etc.")
     fun getProfile(request: HttpServletRequest): ResponseEntity<ShortUserVO> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        var user = userService.retrieveUserData(userId)
+        var user = userService.retrieveFullUserData(userId)
 
         user.avatar?.let {
             val avatarThumbnail = avatarService.makeThumbnail(it.data)
@@ -60,7 +60,7 @@ class UserController(
     @PutMapping("/subscribe")
     fun subscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        val username = userService.retrieveUserData(userId).username
+        val username = userService.retrieveFullUserData(userId).username
         followersService.subscribe(username, following.username)
         return ResponseEntity.ok().build()
     }
@@ -68,7 +68,7 @@ class UserController(
     @PutMapping("/unsubscribe")
     fun unsubscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        val username = userService.retrieveUserData(userId).username
+        val username = userService.retrieveFullUserData(userId).username
         followersService.unsubscribe(username, following.username)
         return ResponseEntity.ok().build()
     }
@@ -76,7 +76,7 @@ class UserController(
     @GetMapping("/all-my-posts")
     fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        val user = userService.retrieveUserData(userId)
+        val user = userService.retrieveFullUserData(userId)
         val posts = postService.getAllPosts(user)
 
         return ResponseEntity.ok(posts?.map { postAssembler.toPostVO(it) })
