@@ -28,7 +28,6 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("net.coobird:thumbnailator:0.4.16")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
-	implementation("org.springframework.boot:spring-boot-starter-web:")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.assertj:assertj-core:3.22.0")

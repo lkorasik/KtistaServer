@@ -81,4 +81,21 @@ class UserController(
 
         return ResponseEntity.ok(posts?.map { postAssembler.toPostVO(it) })
     }
+
+    @GetMapping("/all-followings")
+    fun getAllMyFollowings(request: HttpServletRequest): ResponseEntity<List<ShortUserVO>> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val followings = followersService.getAllFollowings(userId)
+
+        return ResponseEntity.ok(followings.map { userAssembler.toShortUserVO(it.follower) })
+    }
+
+    @GetMapping("/feed")
+    fun getFeed(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
+        val userId = TokenAuthenticationService.getUserIdFromRequest(request)
+        val user = userService.retrieveFullUserData(userId)
+        val feed = postService.getFeed(user)
+
+        return ResponseEntity.ok(feed.map { postAssembler.toPostVO(it) })
+    }
 }

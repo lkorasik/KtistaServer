@@ -7,6 +7,6 @@ import com.ktinsta.server.storage.model.FullUser
 
 interface PostService {
     fun create(postDetails: BriefPost)
-    fun create(postDetails: Post)
+    fun getFeed(user: FullUser): List<Post>
     fun getAllPosts(author: FullUser): List<Post>?
 }

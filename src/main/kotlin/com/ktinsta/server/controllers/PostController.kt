@@ -8,7 +8,6 @@ import com.ktinsta.server.service.PostService
 import com.ktinsta.server.service.UserService
 import com.ktinsta.server.storage.model.BriefPost
 import com.ktinsta.server.storage.model.Image
-import com.ktinsta.server.storage.model.Post
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
+
 
 @RestController
 @RequestMapping("/api/post/")
