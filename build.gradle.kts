@@ -30,6 +30,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 	runtimeOnly("org.postgresql:postgresql")
+
 	testImplementation("org.assertj:assertj-core:3.22.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
