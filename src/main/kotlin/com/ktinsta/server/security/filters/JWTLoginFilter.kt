@@ -49,7 +49,7 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager, private va
         chain: FilterChain,
         authResult: Authentication
     ) {
-        TokenAuthenticationService.addAuthentication(response, authResult.name, userService.retrieveUserData(authResult.name)!!.id)
+        TokenAuthenticationService.addAuthentication(response, authResult.name, userService.retrieveFullUserData(authResult.name)!!.id)
     }
 
 }

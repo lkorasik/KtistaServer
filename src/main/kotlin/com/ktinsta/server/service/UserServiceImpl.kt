@@ -7,14 +7,16 @@ import com.ktinsta.server.exceptions.InvalidPasswordException
 import com.ktinsta.server.exceptions.InvalidUserIdException
 import com.ktinsta.server.exceptions.InvalidUsernameException
 import com.ktinsta.server.exceptions.UsernameUnavailableException
+import com.ktinsta.server.storage.model.BriefUser
 import com.ktinsta.server.storage.model.Image
-import com.ktinsta.server.storage.model.User
-import com.ktinsta.server.storage.repository.UserRepository
+import com.ktinsta.server.storage.model.FullUser
+import com.ktinsta.server.storage.repository.BriefUserRepository
+import com.ktinsta.server.storage.repository.FullUserRepository
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserServiceImpl(val repository: UserRepository) : UserService {
+class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserRepository: BriefUserRepository) : UserService {
 
     fun isValid(registrationVO: RegistrationVO): Boolean {
         return registrationVO.run {
@@ -23,16 +25,16 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
     }
 
     @Throws(UsernameUnavailableException::class)
-    override fun attemptRegistration(userDetails: RegistrationVO): User {
+    override fun attemptRegistration(userDetails: RegistrationVO): FullUser {
         if (!usernameExists(userDetails.username)) {
-            val user = User()
-            user.username = userDetails.username
-            user.email = userDetails.email
-            user.password = userDetails.password
-            repository.save(user)
-            obscurePassword(user)
+            val fullUser = FullUser()
+            fullUser.username = userDetails.username
+            fullUser.email = userDetails.email
+            fullUser.password = userDetails.password
+            fullUserRepository.save(fullUser)
+            obscurePassword(fullUser)
 
-            return user
+            return fullUser
         }
         throw UsernameUnavailableException("User with " +
                 "username: ${userDetails.username} is already exists.")
@@ -40,9 +42,9 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
 
     // TODO: refactoring
     @Throws(InvalidUsernameException::class)
-    override fun attemptLogin(loginDetails: LoginVO): User {
+    override fun attemptLogin(loginDetails: LoginVO): FullUser {
         if (usernameExists(loginDetails.username)) {
-            val user = repository.findByUsername(loginDetails.username)
+            val user = fullUserRepository.findByUsername(loginDetails.username)
             if (user != null) {
                 return validatePassword(loginDetails, user)
             }
@@ -50,15 +52,15 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         throw InvalidUsernameException("No user with username: ${loginDetails.username} has been found")
     }
 
-    override fun listUsers(currentUser: User): List<User> {
-        return repository.findAll()
+    override fun listUsers(currentUser: FullUser): List<FullUser> {
+        return fullUserRepository.findAll()
             .mapTo(ArrayList()) { it }
             .filter { it != currentUser }
     }
 
     @Throws(InvalidUserIdException::class)
-    override fun retrieveUserData(id: Long): User {
-        val userOptional = repository.findById(id)
+    override fun retrieveFullUserData(id: Long): FullUser {
+        val userOptional = fullUserRepository.findById(id)
         if (userOptional.isPresent) {
             val user = userOptional.get()
             obscurePassword(user)
@@ -67,19 +69,27 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
         throw InvalidUserIdException("User with id: $id doesn't exist.")
     }
 
-    override fun retrieveUserData(username: String): User? {
-        val user = repository.findByUsername(username)
+    override fun retrieveFullUserData(username: String): FullUser? {
+        val user = fullUserRepository.findByUsername(username)
         obscurePassword(user)
         return user
     }
 
     @Throws(Exception::class)
     override fun usernameExists(username: String): Boolean {
-        return repository.findByUsername(username) != null
+        return fullUserRepository.findByUsername(username) != null
+    }
+
+    override fun retrieveBriefUserData(id: Long): BriefUser? {
+        val userOptional = briefUserRepository.findById(id)
+        if (userOptional.isPresent) {
+            return userOptional.get()
+        }
+        throw InvalidUserIdException("User with id: $id doesn't exist.")
     }
 
     @Throws(InvalidPasswordException::class)
-    fun validatePassword(loginDetails: LoginVO, userDetails: User) : User {
+    fun validatePassword(loginDetails: LoginVO, userDetails: FullUser) : FullUser {
         val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)
         if (isValid) {
             obscurePassword(userDetails)
@@ -89,7 +99,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
     }
 
     fun getSettings(id: Long): UserSettingsVO {
-        repository.apply {
+        fullUserRepository.apply {
             val currentSettings = findById(id).get()
 
             return UserSettingsVO(
@@ -101,7 +111,7 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
     }
 
     fun setSettings(id: Long, userSettings: UserSettingsVO){
-        repository.apply {
+        fullUserRepository.apply {
             val currentSetSettings = findById(id).get()
 
             val img = userSettings.avatar?.let { Image(data = it) }
@@ -110,11 +120,11 @@ class UserServiceImpl(val repository: UserRepository) : UserService {
             currentSetSettings.email = userSettings.email
             currentSetSettings.username = userSettings.nickname
 
-            repository.save(currentSetSettings)
+            fullUserRepository.save(currentSetSettings)
         }
     }
 
-    fun obscurePassword(user: User?) {
-        user?.password = "XXX XXX XXX"
+    fun obscurePassword(fullUser: FullUser?) {
+        fullUser?.password = "XXX XXX XXX"
     }
 }

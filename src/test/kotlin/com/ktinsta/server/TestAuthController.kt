@@ -2,7 +2,7 @@ package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.controllers.dto.RegistrationVO
-import com.ktinsta.server.storage.repository.UserRepository
+import com.ktinsta.server.storage.repository.FullUserRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 class `Test AuthController` {
 
     @Autowired
-    private lateinit var repository: UserRepository
+    private lateinit var repository: FullUserRepository
 
     @Autowired
     private lateinit var mockMvc: MockMvc

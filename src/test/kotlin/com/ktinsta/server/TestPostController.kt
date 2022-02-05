@@ -5,7 +5,7 @@ import com.ktinsta.server.controllers.dto.CreatePostVO
 import com.ktinsta.server.controllers.dto.LoginVO
 import com.ktinsta.server.controllers.dto.RegistrationVO
 import com.ktinsta.server.storage.repository.PostRepository
-import com.ktinsta.server.storage.repository.UserRepository
+import com.ktinsta.server.storage.repository.FullUserRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class `Test PostController` {
     @Autowired
-    private lateinit var userRepository: UserRepository
+    private lateinit var fullUserRepository: FullUserRepository
     @Autowired
     private lateinit var postRepository: PostRepository
 
@@ -31,7 +31,7 @@ class `Test PostController` {
     @AfterEach
     fun `Clear database`(){
         postRepository.deleteAll()
-        userRepository.deleteAll()
+        fullUserRepository.deleteAll()
     }
 
     private lateinit var jwt: String

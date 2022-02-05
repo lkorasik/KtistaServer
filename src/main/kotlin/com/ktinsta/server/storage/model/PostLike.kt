@@ -14,5 +14,5 @@ data class PostLike(
 
     @ManyToOne
     @JoinColumn
-    var user: User
+    var fullUser: FullUser
 )

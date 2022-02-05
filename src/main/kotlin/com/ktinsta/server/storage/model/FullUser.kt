@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank
 @Entity
 @Table(name = "`user`")
 @EntityListeners(UserListener::class)
-data class User(
+data class FullUser(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,

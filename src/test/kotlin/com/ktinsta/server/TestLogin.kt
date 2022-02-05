@@ -3,7 +3,7 @@ package com.ktinsta.server
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.controllers.dto.LoginVO
 import com.ktinsta.server.controllers.dto.RegistrationVO
-import com.ktinsta.server.storage.repository.UserRepository
+import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class `Test login` {
     @Autowired
-    private lateinit var repository: UserRepository
+    private lateinit var repository: FullUserRepository
 
     @Autowired
     private lateinit var mockMvc: MockMvc
