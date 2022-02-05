@@ -93,7 +93,7 @@ class UserController(
     @GetMapping("/feed")
     fun getFeed(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        val user = userService.retrieveUserData(userId)
+        val user = userService.retrieveFullUserData(userId)
         val feed = postService.getFeed(user)
 
         return ResponseEntity.ok(feed.map { postAssembler.toPostVO(it) })

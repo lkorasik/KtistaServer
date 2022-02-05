@@ -2,8 +2,10 @@ package com.ktinsta.server.service
 
 import com.ktinsta.server.storage.model.BriefPost
 import com.ktinsta.server.storage.model.FullUser
+import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.storage.model.Post
 import com.ktinsta.server.storage.repository.BriefPostRepository
+import com.ktinsta.server.storage.repository.ImageRepository
 import com.ktinsta.server.storage.repository.PostRepository
 import org.springframework.stereotype.Service
 
@@ -17,7 +19,7 @@ class PostServiceImpl(val postRepository: PostRepository, val briefPostRepositor
         return postRepository.findByAuthor(author)
     }
 
-    override fun getFeed(user: User): List<Post> {
+    override fun getFeed(user: FullUser): List<Post> {
         val followings = followersService.getAllFollowings(user.id)
 
         val feed = mutableListOf<Post>()
@@ -29,12 +31,5 @@ class PostServiceImpl(val postRepository: PostRepository, val briefPostRepositor
         }
 
         return feed.sortedBy { it.createdAt }
-    }
-}
-
-@Service
-class ImageService(val imageRepository: ImageRepository){
-    fun create(image: Image){
-        imageRepository.save(image)
     }
 }
