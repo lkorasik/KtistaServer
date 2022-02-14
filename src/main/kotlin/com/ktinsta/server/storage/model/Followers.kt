@@ -11,9 +11,9 @@ data class Followers(
 
     @ManyToOne
     @JoinColumn
-    var user: FullUser,
+    var user: BriefUser,
 
     @ManyToOne
     @JoinColumn
-    var follower: FullUser
+    var follower: BriefUser
 )

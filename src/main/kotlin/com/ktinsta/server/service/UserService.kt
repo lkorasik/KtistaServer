@@ -14,4 +14,5 @@ interface UserService {
     fun usernameExists(username: String): Boolean
 
     fun retrieveBriefUserData(id: Long): BriefUser?
+    fun retrieveBriefUserData(username: String): BriefUser?
 }

@@ -60,7 +60,7 @@ class UserController(
     @PutMapping("/subscribe")
     fun subscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
-        val username = userService.retrieveFullUserData(userId).username
+        val username = userService.retrieveBriefUserData(userId)!!.username
         followersService.subscribe(username, following.username)
         return ResponseEntity.ok().build()
     }

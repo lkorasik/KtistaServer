@@ -88,6 +88,14 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
         throw InvalidUserIdException("User with id: $id doesn't exist.")
     }
 
+    override fun retrieveBriefUserData(username: String): BriefUser? {
+        val user = briefUserRepository.findByUsername(username)
+        user?.let {
+            return user
+        }
+        throw InvalidUserIdException("User with username: $username doesn't exist.")
+    }
+
     @Throws(InvalidPasswordException::class)
     fun validatePassword(loginDetails: LoginVO, userDetails: FullUser) : FullUser {
         val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)
@@ -113,8 +121,6 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
     fun setSettings(id: Long, userSettings: UserSettingsVO){
         fullUserRepository.apply {
             val currentSetSettings = findById(id).get()
-
-            val img = userSettings.avatar?.let { Image(data = it) }
 
             currentSetSettings.avatar = userSettings.avatar?.let { Image(data = it) }
             currentSetSettings.email = userSettings.email
