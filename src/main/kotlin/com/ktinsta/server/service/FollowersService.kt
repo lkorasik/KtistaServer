@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 @Service
 class FollowersService(val userService: UserService, val repository: FollowersRepository) {
     fun subscribe(from: String, to: String){
-        val current = userService.retrieveFullUserData(from)
-        val next = userService.retrieveFullUserData(to)
+        val current = userService.retrieveBriefUserData(from)
+        val next = userService.retrieveBriefUserData(to)
 
         val follow = Followers(
             user = current!!,
@@ -21,8 +21,8 @@ class FollowersService(val userService: UserService, val repository: FollowersRe
     }
 
     fun unsubscribe(from: String, to: String){
-        val current = userService.retrieveFullUserData(from)
-        val next = userService.retrieveFullUserData(to)
+        val current = userService.retrieveBriefUserData(from)
+        val next = userService.retrieveBriefUserData(to)
 
         val follow = Followers(
             user = current!!,
