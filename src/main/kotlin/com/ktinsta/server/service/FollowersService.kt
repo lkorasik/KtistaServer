@@ -36,7 +36,7 @@ class FollowersService(val userService: UserService, val repository: FollowersRe
     }
 
     fun getAllFollowings(id: Long): List<Followers> {
-        val user = userService.retrieveFullUserData(id)
+        val user = userService.retrieveBriefUserData(id)
         if(user != null)
             return repository.findByUser(user)
         else

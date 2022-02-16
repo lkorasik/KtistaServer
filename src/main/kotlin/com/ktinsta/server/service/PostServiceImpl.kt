@@ -22,7 +22,7 @@ class PostServiceImpl(val postRepository: PostRepository, val briefPostRepositor
 
         val feed = mutableListOf<Post>()
         for(following in followings){
-            val posts = postRepository.findByAuthor(following.follower)
+            val posts = postRepository.findByAuthorId(following.follower.id)
             if (posts != null) {
                 feed.addAll(posts)
             }
