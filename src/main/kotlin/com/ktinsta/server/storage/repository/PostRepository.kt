@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PostRepository : JpaRepository<Post, Long>{
     fun findByAuthor(author: FullUser): List<Post>?
-    fun findByAuthor(author: BriefUser): List<Post>?
+    fun findByAuthorId(authorId: Long): List<Post>?
 }
