@@ -1,7 +1,7 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -30,7 +30,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user`(){
-        val registration = RegistrationVO("Test", "123456", "test@test.test")
+        val registration = RegistrationDTO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -41,7 +41,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty password`(){
-        val registration = RegistrationVO("Test", "", "test@test.test")
+        val registration = RegistrationDTO("Test", "", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -52,7 +52,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty email`(){
-        val registration = RegistrationVO("Test", "123456", "")
+        val registration = RegistrationDTO("Test", "123456", "")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -63,7 +63,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty nickname`(){
-        val registration = RegistrationVO("", "123456", "test@test.test")
+        val registration = RegistrationDTO("", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -75,7 +75,7 @@ class `Test AuthController` {
     @Test
     fun `Register two identical new users`(){
         val username = "Test"
-        val registration = RegistrationVO(username, "123456", "test@test.test")
+        val registration = RegistrationDTO(username, "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))

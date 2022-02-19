@@ -1,8 +1,8 @@
 package com.ktinsta.server.service
 
-import com.ktinsta.server.controllers.dto.LoginVO
-import com.ktinsta.server.controllers.dto.RegistrationVO
-import com.ktinsta.server.controllers.dto.UserSettingsVO
+import com.ktinsta.server.controllers.dto.LoginDTO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
+import com.ktinsta.server.controllers.dto.UserSettingsDTO
 import com.ktinsta.server.exceptions.InvalidPasswordException
 import com.ktinsta.server.exceptions.InvalidUserIdException
 import com.ktinsta.server.exceptions.InvalidUsernameException
@@ -18,14 +18,14 @@ import org.springframework.stereotype.Service
 @Service
 class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserRepository: BriefUserRepository) : UserService {
 
-    fun isValid(registrationVO: RegistrationVO): Boolean {
-        return registrationVO.run {
+    fun isValid(registrationDTO: RegistrationDTO): Boolean {
+        return registrationDTO.run {
             email.isNotBlank() && password.isNotBlank() && username.isNotBlank()
         }
     }
 
     @Throws(UsernameUnavailableException::class)
-    override fun attemptRegistration(userDetails: RegistrationVO): FullUser {
+    override fun attemptRegistration(userDetails: RegistrationDTO): FullUser {
         if (!usernameExists(userDetails.username)) {
             val fullUser = FullUser()
             fullUser.username = userDetails.username
@@ -42,7 +42,7 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
 
     // TODO: refactoring
     @Throws(InvalidUsernameException::class)
-    override fun attemptLogin(loginDetails: LoginVO): FullUser {
+    override fun attemptLogin(loginDetails: LoginDTO): FullUser {
         if (usernameExists(loginDetails.username)) {
             val user = fullUserRepository.findByUsername(loginDetails.username)
             if (user != null) {
@@ -97,7 +97,7 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
     }
 
     @Throws(InvalidPasswordException::class)
-    fun validatePassword(loginDetails: LoginVO, userDetails: FullUser) : FullUser {
+    fun validatePassword(loginDetails: LoginDTO, userDetails: FullUser) : FullUser {
         val isValid = BCryptPasswordEncoder().matches(loginDetails.password, userDetails.password)
         if (isValid) {
             obscurePassword(userDetails)
@@ -106,25 +106,25 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
         throw InvalidPasswordException("Password for user: ${userDetails.username} is incorrect.")
     }
 
-    fun getSettings(id: Long): UserSettingsVO {
+    fun getSettings(id: Long): UserSettingsDTO {
         fullUserRepository.apply {
             val currentSettings = findById(id).get()
 
-            return UserSettingsVO(
+            return UserSettingsDTO(
                 avatar = currentSettings.avatar?.data,
                 email = currentSettings.email,
-                nickname = currentSettings.username
+                username = currentSettings.username
             )
         }
     }
 
-    fun setSettings(id: Long, userSettings: UserSettingsVO){
+    fun setSettings(id: Long, userSettings: UserSettingsDTO){
         fullUserRepository.apply {
             val currentSetSettings = findById(id).get()
 
             currentSetSettings.avatar = userSettings.avatar?.let { Image(data = it) }
             currentSetSettings.email = userSettings.email
-            currentSetSettings.username = userSettings.nickname
+            currentSetSettings.username = userSettings.username
 
             fullUserRepository.save(currentSetSettings)
         }

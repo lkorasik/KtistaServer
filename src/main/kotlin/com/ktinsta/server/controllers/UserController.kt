@@ -2,10 +2,10 @@ package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.PostAssembler
 import com.ktinsta.server.components.UserAssembler
-import com.ktinsta.server.controllers.dto.UserSettingsVO
-import com.ktinsta.server.helpers.objects.FollowingVO
-import com.ktinsta.server.helpers.objects.ReturnPostVO
-import com.ktinsta.server.helpers.objects.ShortUserVO
+import com.ktinsta.server.controllers.dto.UserSettingsDTO
+import com.ktinsta.server.controllers.dto.FollowingDTO
+import com.ktinsta.server.controllers.dto.ReturnPostDTO
+import com.ktinsta.server.controllers.dto.ShortUserDTO
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.*
 import com.ktinsta.server.storage.model.Image
@@ -29,7 +29,7 @@ class UserController(
 
     @GetMapping("/profile")
     @ApiOperation(value = "Get user information like username, avatar and etc.")
-    fun getProfile(request: HttpServletRequest): ResponseEntity<ShortUserVO> {
+    fun getProfile(request: HttpServletRequest): ResponseEntity<ShortUserDTO> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         var user = userService.retrieveFullUserData(userId)
 
@@ -44,21 +44,21 @@ class UserController(
 
     @GetMapping("/settings")
     @ApiOperation(value = "Get user's settings like username, avatar and etc.")
-    fun getSettings(request: HttpServletRequest): ResponseEntity<UserSettingsVO>{
+    fun getSettings(request: HttpServletRequest): ResponseEntity<UserSettingsDTO>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         return ResponseEntity.ok(userService.getSettings(userId))
     }
 
     @PostMapping("/settings")
     @ApiOperation(value = "Set new user's settings.")
-    fun setSettings(@Valid @RequestBody userSettings: UserSettingsVO, request: HttpServletRequest): ResponseEntity<Void>{
+    fun setSettings(@Valid @RequestBody userSettings: UserSettingsDTO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         userService.setSettings(userId, userSettings)
         return ResponseEntity.ok().build()
     }
 
     @PutMapping("/subscribe")
-    fun subscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void>{
+    fun subscribe(@Valid @RequestBody following: FollowingDTO, request: HttpServletRequest): ResponseEntity<Void>{
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val username = userService.retrieveBriefUserData(userId)!!.username
         followersService.subscribe(username, following.username)
@@ -66,7 +66,7 @@ class UserController(
     }
 
     @PutMapping("/unsubscribe")
-    fun unsubscribe(@Valid @RequestBody following: FollowingVO, request: HttpServletRequest): ResponseEntity<Void> {
+    fun unsubscribe(@Valid @RequestBody following: FollowingDTO, request: HttpServletRequest): ResponseEntity<Void> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val username = userService.retrieveFullUserData(userId).username
         followersService.unsubscribe(username, following.username)
@@ -74,7 +74,7 @@ class UserController(
     }
 
     @GetMapping("/all-my-posts")
-    fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
+    fun getAllMyPosts(request: HttpServletRequest): ResponseEntity<List<ReturnPostDTO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val user = userService.retrieveFullUserData(userId)
         val posts = postService.getAllPosts(user)
@@ -83,7 +83,7 @@ class UserController(
     }
 
     @GetMapping("/all-followings")
-    fun getAllMyFollowings(request: HttpServletRequest): ResponseEntity<List<ShortUserVO>> {
+    fun getAllMyFollowings(request: HttpServletRequest): ResponseEntity<List<ShortUserDTO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val followings = followersService.getAllFollowings(userId)
 
@@ -91,7 +91,7 @@ class UserController(
     }
 
     @GetMapping("/feed")
-    fun getFeed(request: HttpServletRequest): ResponseEntity<List<ReturnPostVO>> {
+    fun getFeed(request: HttpServletRequest): ResponseEntity<List<ReturnPostDTO>> {
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val user = userService.retrieveFullUserData(userId)
         val feed = postService.getFeed(user)

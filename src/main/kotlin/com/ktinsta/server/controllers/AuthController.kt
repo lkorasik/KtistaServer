@@ -2,7 +2,7 @@ package com.ktinsta.server.controllers
 
 import com.ktinsta.server.components.UserAssembler
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.service.UserServiceImpl
 import io.swagger.annotations.Api
@@ -24,7 +24,7 @@ class AuthController(val userService: UserServiceImpl, val userAssembler: UserAs
 
     @PostMapping("/registration")
     @ApiOperation(value = "Create new account.")
-    fun registration(@Valid @RequestBody userDetails: RegistrationVO, response: HttpServletResponse): ResponseEntity<Any> {
+    fun registration(@Valid @RequestBody userDetails: RegistrationDTO, response: HttpServletResponse): ResponseEntity<Any> {
         if(!userService.isValid(userDetails))
             return ResponseEntity(HttpStatus.BAD_REQUEST)
 

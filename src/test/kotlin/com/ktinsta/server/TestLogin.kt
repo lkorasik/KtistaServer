@@ -1,8 +1,8 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.controllers.dto.LoginVO
-import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.controllers.dto.LoginDTO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
@@ -32,7 +32,7 @@ class `Test login` {
 
     @BeforeEach
     fun `Register user`(){
-        val registration = RegistrationVO("Test", "123456", "test@test.test")
+        val registration = RegistrationDTO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -43,7 +43,7 @@ class `Test login` {
 
     @Test
     fun `Login user`(){
-        val login = LoginVO("Test", "123456")
+        val login = LoginDTO("Test", "123456")
 
         val post2 = MockMvcRequestBuilders.post("/api/auth/login")
             .content(jacksonObjectMapper().writeValueAsString(login))
