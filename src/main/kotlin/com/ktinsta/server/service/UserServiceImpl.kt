@@ -16,7 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserRepository: BriefUserRepository) : UserService {
+class UserServiceImpl(val fullUserRepository: FullUserRepository,
+                      val briefUserRepository: BriefUserRepository) : UserService {
 
     fun isValid(registrationDTO: RegistrationDTO): Boolean {
         return registrationDTO.run {
@@ -24,6 +25,7 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository, val briefUserR
         }
     }
 
+    // TODO: refactoring
     @Throws(UsernameUnavailableException::class)
     override fun attemptRegistration(userDetails: RegistrationDTO): FullUser {
         if (!usernameExists(userDetails.username)) {
