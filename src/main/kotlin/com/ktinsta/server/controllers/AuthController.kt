@@ -40,3 +40,4 @@ class AuthController(val userService: UserServiceImpl, val userAssembler: UserAs
     @ApiOperation(value = "Login and get JWT. use this JWT to access other methods.")
     fun login(@RequestBody user: AccountCredentials) {}
 }
+
