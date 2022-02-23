@@ -1,6 +1,6 @@
 package com.ktinsta.server.controllers.dto
 
-data class LoginVO(
+data class LoginDTO(
     val username: String,
     val password: String
 )

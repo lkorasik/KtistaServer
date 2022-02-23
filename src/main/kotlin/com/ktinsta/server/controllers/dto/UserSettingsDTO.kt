@@ -1,7 +1,7 @@
 package com.ktinsta.server.controllers.dto
 
-data class UserSettingsVO(
+data class UserSettingsDTO(
     val avatar: ByteArray?,
     val email: String,
-    val nickname: String
+    val username: String
 )

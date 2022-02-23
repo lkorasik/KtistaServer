@@ -1,9 +1,9 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.controllers.dto.CreatePostVO
-import com.ktinsta.server.controllers.dto.LoginVO
-import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.controllers.dto.CreatePostDTO
+import com.ktinsta.server.controllers.dto.LoginDTO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.storage.repository.PostRepository
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.junit.jupiter.api.AfterEach
@@ -38,7 +38,7 @@ class `Test PostController` {
 
     @BeforeEach
     fun `Register new user and login`(){
-        val registration = RegistrationVO("Test", "123456", "test@gmail.com")
+        val registration = RegistrationDTO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -46,7 +46,7 @@ class `Test PostController` {
 
         mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk)
 
-        val login = LoginVO("Test", "123456")
+        val login = LoginDTO("Test", "123456")
 
         val post2 = MockMvcRequestBuilders.post("/api/auth/login")
             .content(jacksonObjectMapper().writeValueAsString(login))
@@ -60,7 +60,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post`(){
-        val newPost = CreatePostVO("Test", ByteArray(1024))
+        val newPost = CreatePostDTO("Test", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
@@ -72,7 +72,7 @@ class `Test PostController` {
 
     @Test
     fun `Create new post without text`(){
-        val newPost = CreatePostVO("", ByteArray(1024))
+        val newPost = CreatePostDTO("", ByteArray(1024))
 
         val post = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")

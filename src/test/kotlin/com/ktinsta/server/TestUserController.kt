@@ -2,7 +2,7 @@ package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ktinsta.server.controllers.dto.*
-import com.ktinsta.server.helpers.objects.ReturnPostVO
+import com.ktinsta.server.controllers.dto.ReturnPostDTO
 import com.ktinsta.server.storage.repository.PostRepository
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -38,7 +38,7 @@ class `Test UserController` {
 
     @BeforeEach
     fun `Register new user and login`(){
-        val registration = RegistrationVO("Test", "123456", "test@gmail.com")
+        val registration = RegistrationDTO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
@@ -46,7 +46,7 @@ class `Test UserController` {
 
         mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk)
 
-        val login = LoginVO("Test", "123456")
+        val login = LoginDTO("Test", "123456")
 
         val post2 = MockMvcRequestBuilders.post("/api/auth/login")
             .content(jacksonObjectMapper().writeValueAsString(login))
@@ -64,17 +64,17 @@ class `Test UserController` {
             .header("Authorization", "Bearer $jwt")
 
         val result = mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk).andReturn()
-        val user = jacksonObjectMapper().readValue(result.response.contentAsByteArray, FullUserVO::class.java)
+        val user = jacksonObjectMapper().readValue(result.response.contentAsByteArray, FullUserDTO::class.java)
 
         assertThat(user.username).isEqualTo("Test")
-        assertThat(user.followers).isEqualTo(0)
-        assertThat(user.followings).isEqualTo(0)
-        assertThat(user.image).isNull()
+        assertThat(user.followersCount).isEqualTo(0)
+        assertThat(user.followingsCount).isEqualTo(0)
+        assertThat(user.avatar).isNull()
     }
 
     @Test
     fun `Set and get settings`(){
-        val settings = UserSettingsVO(null, "test@test.test", "Test")
+        val settings = UserSettingsDTO(null, "test@test.test", "Test")
 
         val settingsReq = MockMvcRequestBuilders.post("/api/user/settings")
             .header("Authorization", "Bearer $jwt")
@@ -87,15 +87,15 @@ class `Test UserController` {
             .header("Authorization", "Bearer $jwt")
 
         val result = mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk).andReturn()
-        val setting = jacksonObjectMapper().readValue(result.response.contentAsByteArray, UserSettingsVO::class.java)
+        val setting = jacksonObjectMapper().readValue(result.response.contentAsByteArray, UserSettingsDTO::class.java)
 
         assertThat(setting.email).isEqualTo("test@test.test")
-        assertThat(setting.nickname).isEqualTo("Test")
+        assertThat(setting.username).isEqualTo("Test")
     }
 
     @Test
     fun `Get all user's posts`(){
-        val newPost = CreatePostVO("Test text", ByteArray(1024))
+        val newPost = CreatePostDTO("Test text", ByteArray(1024))
 
         val postR = MockMvcRequestBuilders.post("/api/post/create")
             .header("Authorization", "Bearer $jwt")
@@ -109,7 +109,7 @@ class `Test UserController` {
             .header("Authorization", "Bearer $jwt")
 
         val result = mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isOk).andReturn()
-        val posts = jacksonObjectMapper().readValue(result.response.contentAsByteArray, Array<ReturnPostVO>::class.java)
+        val posts = jacksonObjectMapper().readValue(result.response.contentAsByteArray, Array<ReturnPostDTO>::class.java)
 
         assertThat(posts.map { it.author.username }).isEqualTo(arrayListOf("Test", "Test"))
         assertThat(posts.map { it.text }).isEqualTo(arrayListOf("Test text", "Test text"))

@@ -1,7 +1,7 @@
 package com.ktinsta.server
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.ktinsta.server.controllers.dto.RegistrationVO
+import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -34,7 +34,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user`(){
-        val registration = RegistrationVO(username, password, email)
+        val registration = RegistrationDTO("Test", "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -46,7 +46,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty password`(){
-        val registration = RegistrationVO(username, "", email)
+        val registration = RegistrationDTO("Test", "", "test@test.test")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -72,7 +72,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty email`(){
-        val registration = RegistrationVO(username, password, "")
+        val registration = RegistrationDTO("Test", "123456", "")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -252,7 +252,8 @@ class `Test AuthController` {
 
     @Test
     fun `Register two identical new users`(){
-        val registration = RegistrationVO(username, password, email)
+        val username = "Test"
+        val registration = RegistrationDTO(username, "123456", "test@test.test")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
