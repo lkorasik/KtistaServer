@@ -1,7 +1,7 @@
 package com.ktinsta.server.controllers
 
 import com.ktinsta.server.constants.ResponseConstants
-import com.ktinsta.server.controllers.dto.CreatePostVO
+import com.ktinsta.server.controllers.dto.CreatePostDTO
 import com.ktinsta.server.security.service.TokenAuthenticationService
 import com.ktinsta.server.service.ImageService
 import com.ktinsta.server.service.PostService
@@ -27,11 +27,11 @@ class PostController(val postService: PostService, val userService: UserService,
 
     @PostMapping("/create")
     @ApiOperation(value = "Create new post")
-    fun createPost(@Valid @RequestBody postDetails: CreatePostVO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
+    fun createPost(@Valid @RequestBody postDetails: CreatePostDTO, response: HttpServletResponse, request: HttpServletRequest): ResponseEntity<Any> {
         val authorId = TokenAuthenticationService.getUserIdFromRequest(request)
         val author = userService.retrieveBriefUserData(authorId)
 
-        val image = Image(data = postDetails.data)
+        val image = Image(data = postDetails.image)
         imageRepository.create(image)
 
         val post = BriefPost(author = author!!, text = postDetails.text, image = image)

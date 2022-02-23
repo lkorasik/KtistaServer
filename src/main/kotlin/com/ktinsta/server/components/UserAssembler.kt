@@ -1,38 +1,33 @@
 package com.ktinsta.server.components
 
-import com.ktinsta.server.controllers.dto.FullUserVO
-import com.ktinsta.server.helpers.objects.ShortUserVO
+import com.ktinsta.server.controllers.dto.FullUserDTO
+import com.ktinsta.server.controllers.dto.ShortUserDTO
 import com.ktinsta.server.storage.model.BriefUser
 import com.ktinsta.server.storage.model.FullUser
 import org.springframework.stereotype.Component
 
 @Component
 class UserAssembler {
-    fun toFullUserVO(user: FullUser): FullUserVO {
-        return FullUserVO(
-            image = user.avatar?.data,
+    fun toFullUserVO(user: FullUser): FullUserDTO {
+        return FullUserDTO(
+            avatar = user.avatar?.data,
             username = user.username,
-            followers = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
-            followings = 0
+            followersCount = 0, //TODO: Дописать код для подсчета числа подписок и подписчиков
+            followingsCount = 0
         )
     }
 
-    fun toShortUserVO(user: FullUser): ShortUserVO {
-        return  ShortUserVO(
-            image = user.avatar?.data,
+    fun toShortUserVO(user: FullUser): ShortUserDTO {
+        return  ShortUserDTO(
+            avatar = user.avatar?.data,
             username = user.username
         )
     }
 
-    fun toShortUserVO(user: BriefUser): ShortUserVO {
-        return  ShortUserVO(
-            image = user.avatar?.data,
+    fun toShortUserVO(user: BriefUser): ShortUserDTO {
+        return  ShortUserDTO(
+            avatar = user.avatar?.data,
             username = user.username
         )
     }
-
-//    fun toUserListVO(users: List<User>): UserListVO {
-//        val userListVO = users.map { toUserVO(it) }
-//        return UserListVO(userListVO)
-//    }
 }

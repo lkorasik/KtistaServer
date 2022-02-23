@@ -1,6 +1,6 @@
 package com.ktinsta.server.controllers.dto
 
-data class CreatePostVO(
+data class CreatePostDTO(
     var text: String,
-    var data: ByteArray
+    var image: ByteArray
 )
