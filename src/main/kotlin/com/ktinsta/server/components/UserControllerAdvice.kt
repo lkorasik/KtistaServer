@@ -142,7 +142,7 @@ class UserControllerAdvice {
     @ExceptionHandler(InvalidEmailException::class)
     fun invalidEmail(invalidEmailException: InvalidEmailException): ResponseEntity<ErrorResponse> {
         val res = ErrorResponse(
-            ResponseConstants.INVALID_PASSWORD_SYMBOLS.value,
+            ResponseConstants.INVALID_EMAIL.value,
             invalidEmailException.message
         )
 
