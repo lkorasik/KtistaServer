@@ -79,7 +79,7 @@ class `Test AuthController` {
             .content(jacksonObjectMapper().writeValueAsString(registration))
             .contentType(MediaType.APPLICATION_JSON)
 
-        mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isBadRequest)
+        mockMvc.perform(post).andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
     }
 
     @Test

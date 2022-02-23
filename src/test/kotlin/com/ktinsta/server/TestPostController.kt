@@ -38,7 +38,7 @@ class `Test PostController` {
 
     @BeforeEach
     fun `Register new user and login`(){
-        val registration = RegistrationVO("Test", "123456", "test@test.test")
+        val registration = RegistrationVO("Test", "123456", "test@gmail.com")
 
         val post = MockMvcRequestBuilders.post("/api/auth/registration")
             .content(jacksonObjectMapper().writeValueAsString(registration))
