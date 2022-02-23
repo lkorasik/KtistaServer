@@ -34,7 +34,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user`(){
-        val registration = RegistrationDTO("Test", "123456", "test@test.test")
+        val registration = RegistrationDTO("Test", "123456", "test@gmail.com")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -84,7 +84,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty nickname`(){
-        val registration = RegistrationVO("", password, email)
+        val registration = RegistrationDTO("", password, email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -96,7 +96,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with too short username`(){
-        val registration = RegistrationVO("Te", password, email)
+        val registration = RegistrationDTO("Te", password, email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -122,7 +122,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with too long username`(){
-        val registration = RegistrationVO("TestTestTestTestTestTestTestTestTest", password, email)
+        val registration = RegistrationDTO("TestTestTestTestTestTestTestTestTest", password, email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -148,7 +148,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with invalid username`(){
-        val registration = RegistrationVO("Test!", password, email)
+        val registration = RegistrationDTO("Test!", password, email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -174,7 +174,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with too short password`(){
-        val registration = RegistrationVO(username, "Pa", email)
+        val registration = RegistrationDTO(username, "Pa", email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -200,7 +200,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with too long password`(){
-        val registration = RegistrationVO(username, "123456789012345678901234567890123456789012345678901234567890", email)
+        val registration = RegistrationDTO(username, "123456789012345678901234567890123456789012345678901234567890", email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -226,7 +226,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with invalid password`(){
-        val registration = RegistrationVO(username, "$password ", email)
+        val registration = RegistrationDTO(username, "$password ", email)
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
@@ -253,7 +253,7 @@ class `Test AuthController` {
     @Test
     fun `Register two identical new users`(){
         val username = "Test"
-        val registration = RegistrationDTO(username, "123456", "test@test.test")
+        val registration = RegistrationDTO(username, "123456", "test@gmail.com")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
