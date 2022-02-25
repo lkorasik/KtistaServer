@@ -22,12 +22,12 @@ class `Test User Service registration` {
     @MockBean
     private lateinit var briefUserRepository: BriefUserRepository
 
-    private val username = "EinsteinTestovich"
+    private val username = "Einstein"
     private val password = "myTheoryOfGravity"
     private val email = "Einstein@science.com"
 
     @Test
-    fun `Validate registration data`() {
+    fun `Validate correct registration data`() {
         val registrationDTO = RegistrationDTO(username, password, email)
 
         val isValid = userService.isValid(registrationDTO)

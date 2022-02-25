@@ -1,11 +1,19 @@
 package com.ktinsta.server.constants
 
 enum class ResponseConstants(val value: String) {
-    SUCCESS("success"), ERROR("error"),
+    SUCCESS("success"),
+    ERROR("error"),
     USERNAME_UNAVAILABLE("USR_001"),
     INVALID_USER_ID("USR_002"),
     INVALID_USERNAME("USR_003"),
     INVALID_PASSWORD("USR_004"),
-    EMPTY_STATUS("USR_005"),
+    TOO_SHORT_USERNAME("USR_005"),
+    TOO_LONG_USERNAME("USR_006"),
+    INVALID_USERNAME_SYMBOLS("USR_007"),
+    TOO_SHORT_PASSWORD("USR_008"),
+    TOO_LONG_PASSWORD("USR_009"),
+    INVALID_PASSWORD_SYMBOLS("USR_010"),
+    INVALID_EMAIL("USR_011"),
+    EMPTY_STATUS("USR_012"),
     ACCOUNT_DEACTIVATED("GLO_001")
 }
