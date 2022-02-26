@@ -17,12 +17,6 @@ class UserServiceImpl(
     private val fullUserRepository: FullUserRepository,
     private val briefUserRepository: BriefUserRepository) : UserService {
 
-    fun isValid(registrationDTO: RegistrationDTO): Boolean {
-        return registrationDTO.run {
-            email.isNotBlank() && password.isNotBlank() && username.isNotBlank()
-        }
-    }
-
     @Throws(UsernameUnavailableException::class, EmailUnavailableException::class)
     override fun attemptRegistration(userDetails: RegistrationDTO) {
         if(usernameExists(userDetails.username))

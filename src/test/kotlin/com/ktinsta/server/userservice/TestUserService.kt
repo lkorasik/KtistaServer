@@ -28,42 +28,6 @@ class `Test User Service registration` {
     private val email = "Einstein@science.com"
 
     @Test
-    fun `Validate correct registration data`() {
-        val registrationDTO = RegistrationDTO(username, password, email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isTrue
-    }
-
-    @Test
-    fun `Empty username`() {
-        val registrationDTO = RegistrationDTO("", password, email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
-    fun `Empty password`() {
-        val registrationDTO = RegistrationDTO(username, "", email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
-    fun `Empty email`() {
-        val registrationDTO = RegistrationDTO(username, password, "")
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
     fun `Register new user`() {
         val registrationDTO = RegistrationDTO(username, password, email)
 
