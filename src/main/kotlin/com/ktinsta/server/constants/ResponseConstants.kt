@@ -15,5 +15,6 @@ enum class ResponseConstants(val value: String) {
     INVALID_PASSWORD_SYMBOLS("USR_010"),
     INVALID_EMAIL("USR_011"),
     EMPTY_STATUS("USR_012"),
+    EMAIL_UNAVAILABLE("USR_013"),
     ACCOUNT_DEACTIVATED("GLO_001")
 }

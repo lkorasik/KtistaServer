@@ -3,6 +3,7 @@ package com.ktinsta.server.userservice
 import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.exceptions.UsernameUnavailableException
 import com.ktinsta.server.service.UserServiceImpl
+import com.ktinsta.server.storage.model.FullUser
 import com.ktinsta.server.storage.repository.BriefUserRepository
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -66,7 +67,12 @@ class `Test User Service registration` {
     fun `Register new user`() {
         val registrationDTO = RegistrationDTO(username, password, email)
 
-        val user = userService.attemptRegistration(registrationDTO)
+        userService.attemptRegistration(registrationDTO)
+        val user = FullUser().also {
+            it.username = username
+            it.email = email
+            it.password = password
+        }
 
         Mockito.verify(fullUserRepository, Mockito.times(1)).save(user)
     }

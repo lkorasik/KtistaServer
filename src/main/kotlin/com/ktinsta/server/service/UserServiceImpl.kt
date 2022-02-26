@@ -3,10 +3,7 @@ package com.ktinsta.server.service
 import com.ktinsta.server.controllers.dto.LoginDTO
 import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.controllers.dto.UserSettingsDTO
-import com.ktinsta.server.exceptions.InvalidPasswordException
-import com.ktinsta.server.exceptions.InvalidUserIdException
-import com.ktinsta.server.exceptions.InvalidUsernameException
-import com.ktinsta.server.exceptions.UsernameUnavailableException
+import com.ktinsta.server.exceptions.*
 import com.ktinsta.server.storage.model.BriefUser
 import com.ktinsta.server.storage.model.Image
 import com.ktinsta.server.storage.model.FullUser
@@ -16,8 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserServiceImpl(val fullUserRepository: FullUserRepository,
-                      val briefUserRepository: BriefUserRepository) : UserService {
+class UserServiceImpl(
+    private val fullUserRepository: FullUserRepository,
+    private val briefUserRepository: BriefUserRepository) : UserService {
 
     fun isValid(registrationDTO: RegistrationDTO): Boolean {
         return registrationDTO.run {
@@ -25,21 +23,19 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository,
         }
     }
 
-    // TODO: refactoring
-    @Throws(UsernameUnavailableException::class)
-    override fun attemptRegistration(userDetails: RegistrationDTO): FullUser {
-        if (!usernameExists(userDetails.username)) {
-            val fullUser = FullUser()
-            fullUser.username = userDetails.username
-            fullUser.email = userDetails.email
-            fullUser.password = userDetails.password
-            fullUserRepository.save(fullUser)
-            obscurePassword(fullUser)
+    @Throws(UsernameUnavailableException::class, EmailUnavailableException::class)
+    override fun attemptRegistration(userDetails: RegistrationDTO) {
+        if(usernameExists(userDetails.username))
+            throw UsernameUnavailableException("User with username ${userDetails.username} is already exists")
+        if(emailExists(userDetails.email))
+            throw EmailUnavailableException("User with email ${userDetails.email} is already exists")
 
-            return fullUser
+        val fullUser = FullUser().apply {
+            username = userDetails.username
+            email = userDetails.email
+            password = userDetails.password
         }
-        throw UsernameUnavailableException("User with " +
-                "username: ${userDetails.username} is already exists.")
+        fullUserRepository.save(fullUser)
     }
 
     // TODO: refactoring
@@ -80,6 +76,11 @@ class UserServiceImpl(val fullUserRepository: FullUserRepository,
     @Throws(Exception::class)
     override fun usernameExists(username: String): Boolean {
         return fullUserRepository.findByUsername(username) != null
+    }
+
+    @Throws(Exception::class)
+    fun emailExists(email: String): Boolean {
+        return fullUserRepository.findByEmail(email) != null
     }
 
     override fun retrieveBriefUserData(id: Long): BriefUser? {
