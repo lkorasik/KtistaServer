@@ -14,9 +14,6 @@ class InvalidUsernameException(override val message: String)
 class InvalidPasswordException(override val message: String)
     :RuntimeException()
 
-class UserDeactivatedException(override val message: String)
-    :RuntimeException()
-
 class UserStatusEmptyException(override val message: String)
     :RuntimeException()
 

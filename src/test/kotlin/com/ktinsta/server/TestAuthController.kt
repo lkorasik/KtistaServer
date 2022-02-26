@@ -55,7 +55,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_008",
+    "errorCode": "USR_010",
     "errorMessage": "Password too short"
 }
         """.trimIndent()
@@ -105,7 +105,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_005",
+    "errorCode": "USR_008",
     "errorMessage": "Username too short"
 }
         """.trimIndent()
@@ -131,7 +131,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_006",
+    "errorCode": "USR_009",
     "errorMessage": "Username too long"
 }
         """.trimIndent()
@@ -157,7 +157,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_007",
+    "errorCode": "USR_006",
     "errorMessage": "Username contains unavailable symbols"
 }
         """.trimIndent()
@@ -183,7 +183,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_008",
+    "errorCode": "USR_010",
     "errorMessage": "Password too short"
 }
         """.trimIndent()
@@ -209,7 +209,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_009",
+    "errorCode": "USR_011",
     "errorMessage": "Password too long"
 }
         """.trimIndent()
@@ -235,7 +235,7 @@ class `Test AuthController` {
 
         val expected = """
 {
-    "errorCode": "USR_010",
+    "errorCode": "USR_007",
     "errorMessage": "Password contains unavailable symbols"
 }
         """.trimIndent()
