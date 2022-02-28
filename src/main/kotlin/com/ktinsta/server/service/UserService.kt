@@ -6,7 +6,7 @@ import com.ktinsta.server.storage.model.BriefUser
 import com.ktinsta.server.storage.model.FullUser
 
 interface UserService {
-    fun attemptRegistration(userDetails: RegistrationDTO): FullUser
+    fun attemptRegistration(userDetails: RegistrationDTO)
     fun attemptLogin(loginDetails: LoginDTO): FullUser
     fun listUsers(currentUser: FullUser): List<FullUser>
     fun retrieveFullUserData(username: String): FullUser?

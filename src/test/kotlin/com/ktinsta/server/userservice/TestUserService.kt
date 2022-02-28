@@ -3,6 +3,7 @@ package com.ktinsta.server.userservice
 import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.exceptions.UsernameUnavailableException
 import com.ktinsta.server.service.UserServiceImpl
+import com.ktinsta.server.storage.model.FullUser
 import com.ktinsta.server.storage.repository.BriefUserRepository
 import com.ktinsta.server.storage.repository.FullUserRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -27,46 +28,15 @@ class `Test User Service registration` {
     private val email = "Einstein@science.com"
 
     @Test
-    fun `Validate correct registration data`() {
-        val registrationDTO = RegistrationDTO(username, password, email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isTrue
-    }
-
-    @Test
-    fun `Empty username`() {
-        val registrationDTO = RegistrationDTO("", password, email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
-    fun `Empty password`() {
-        val registrationDTO = RegistrationDTO(username, "", email)
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
-    fun `Empty email`() {
-        val registrationDTO = RegistrationDTO(username, password, "")
-
-        val isValid = userService.isValid(registrationDTO)
-
-        assertThat(isValid).isFalse
-    }
-
-    @Test
     fun `Register new user`() {
         val registrationDTO = RegistrationDTO(username, password, email)
 
-        val user = userService.attemptRegistration(registrationDTO)
+        userService.attemptRegistration(registrationDTO)
+        val user = FullUser().also {
+            it.username = username
+            it.email = email
+            it.password = password
+        }
 
         Mockito.verify(fullUserRepository, Mockito.times(1)).save(user)
     }
