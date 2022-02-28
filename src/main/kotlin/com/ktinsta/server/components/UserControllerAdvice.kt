@@ -10,17 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 /**
  * Use to process user's controller exceptions.
  */
-
 @ControllerAdvice
 class UserControllerAdvice {
 
     @ExceptionHandler(UsernameUnavailableException::class)
-    fun usernameUnavailable(usernameUnavailableException: UsernameUnavailableException)
-    : ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.USERNAME_UNAVAILABLE.value,
-            usernameUnavailableException.message
-        )
+    fun usernameUnavailable(exception: UsernameUnavailableException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.USERNAME_UNAVAILABLE.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
@@ -36,125 +31,85 @@ class UserControllerAdvice {
     }
 
     @ExceptionHandler(InvalidUsernameException::class)
-    fun invalidUsernameException(invalidUsernameException: InvalidUsernameException)
-    : ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_USERNAME.value,
-            invalidUsernameException.message
-        )
+    fun invalidUsernameException(exception: InvalidUsernameException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_USERNAME.value, exception.message)
 
         return ResponseEntity.badRequest().body(res)
     }
 
     @ExceptionHandler(InvalidPasswordException::class)
-    fun invalidPasswordException(invalidPasswordException: InvalidPasswordException)
-            : ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_PASSWORD.value,
-            invalidPasswordException.message
-        )
+    fun invalidPasswordException(exception: InvalidPasswordException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_PASSWORD.value, exception.message)
 
         return ResponseEntity.badRequest().body(res)
     }
 
     @ExceptionHandler(InvalidUserIdException::class)
-    fun invalidId(invalidUserIdException: InvalidUserIdException)
-            : ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_USER_ID.value,
-            invalidUserIdException.message
-        )
+    fun invalidUserId(exception: InvalidUserIdException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_USER_ID.value, exception.message)
 
         return ResponseEntity.badRequest().body(res)
     }
 
     @ExceptionHandler(UserStatusEmptyException::class)
-    fun statusEmpty(statusEmptyException: UserStatusEmptyException)
-            : ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.EMPTY_STATUS.value,
-            statusEmptyException.message
-        )
+    fun userStatusEmpty(exception: UserStatusEmptyException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.EMPTY_STATUS.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(TooShortUsernameException::class)
-    fun shortUsername(tooShortUsernameException: TooShortUsernameException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.TOO_SHORT_USERNAME.value,
-            tooShortUsernameException.message
-        )
+    fun tooShortUsername(exception: TooShortUsernameException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.TOO_SHORT_USERNAME.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(TooLongUsernameException::class)
-    fun longUsername(tooLongUsernameException: TooLongUsernameException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.TOO_LONG_USERNAME.value,
-            tooLongUsernameException.message
-        )
+    fun tooLongUsername(exception: TooLongUsernameException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.TOO_LONG_USERNAME.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(InvalidSymbolsUsernameException::class)
-    fun invalidSymbolsUsername(invalidSymbolsUsernameException: InvalidSymbolsUsernameException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_USERNAME_SYMBOLS.value,
-            invalidSymbolsUsernameException.message
-        )
+    fun invalidSymbolsUsername(exception: InvalidSymbolsUsernameException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_USERNAME_SYMBOLS.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(NotUniqueUsernameException::class)
-    fun invalidSymbolsUsername(notUniqueUsernameException: NotUniqueUsernameException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.USERNAME_UNAVAILABLE.value,
-            notUniqueUsernameException.message
-        )
+    fun notUniqueUsername(exception: NotUniqueUsernameException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.USERNAME_UNAVAILABLE.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(TooShortPasswordException::class)
-    fun shortPassword(tooShortPasswordException: TooShortPasswordException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.TOO_SHORT_PASSWORD.value,
-            tooShortPasswordException.message
-        )
+    fun tooShortPassword(exception: TooShortPasswordException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.TOO_SHORT_PASSWORD.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(TooLongPasswordException::class)
-    fun longPassword(tooLongPasswordException: TooLongPasswordException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.TOO_LONG_PASSWORD.value,
-            tooLongPasswordException.message
-        )
+    fun tooLongPassword(exception: TooLongPasswordException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.TOO_LONG_PASSWORD.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(InvalidSymbolsPasswordException::class)
-    fun invalidSymbolsPassword(invalidSymbolsPasswordException: InvalidSymbolsPasswordException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_PASSWORD_SYMBOLS.value,
-            invalidSymbolsPasswordException.message
-        )
+    fun invalidSymbolsPassword(exception: InvalidSymbolsPasswordException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_PASSWORD_SYMBOLS.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
     @ExceptionHandler(InvalidEmailException::class)
-    fun invalidEmail(invalidEmailException: InvalidEmailException): ResponseEntity<ErrorResponse> {
-        val res = ErrorResponse(
-            ResponseConstants.INVALID_EMAIL.value,
-            invalidEmailException.message
-        )
+    fun invalidEmail(exception: InvalidEmailException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(ResponseConstants.INVALID_EMAIL.value, exception.message)
 
         return ResponseEntity.unprocessableEntity().body(res)
     }
