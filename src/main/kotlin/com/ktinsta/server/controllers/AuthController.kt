@@ -25,11 +25,7 @@ class AuthController(val userService: UserServiceImpl, val userAssembler: UserAs
     @PostMapping("/registration")
     @ApiOperation(value = "Create new account.")
     fun registration(@Valid @RequestBody userDetails: RegistrationDTO, response: HttpServletResponse): ResponseEntity<Any> {
-        if(!userService.isValid(userDetails))
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-
         userService.attemptRegistration(userDetails)
-
         return ResponseEntity.ok(ResponseConstants.SUCCESS.value)
     }
 

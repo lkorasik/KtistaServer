@@ -20,6 +20,16 @@ class UserControllerAdvice {
         return ResponseEntity.unprocessableEntity().body(res)
     }
 
+    @ExceptionHandler(EmailUnavailableException::class)
+    fun emailUnavailable(emailUnavailableException: EmailUnavailableException): ResponseEntity<ErrorResponse> {
+        val res = ErrorResponse(
+            ResponseConstants.EMAIL_UNAVAILABLE.value,
+            emailUnavailableException.message
+        )
+
+        return ResponseEntity.unprocessableEntity().body(res)
+    }
+
     @ExceptionHandler(InvalidUsernameException::class)
     fun invalidUsernameException(exception: InvalidUsernameException): ResponseEntity<ErrorResponse> {
         val res = ErrorResponse(ResponseConstants.INVALID_USERNAME.value, exception.message)
