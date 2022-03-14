@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig(val userDetailsService: AppUserDetailsService, val userService: UserService) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(val userDetailsService: AppUserDetailsService, val userService: UserService) : WebSecurityConfigurerAdapter() {
 
     /*
     Определяет какие url пути должны быть защищенны.
