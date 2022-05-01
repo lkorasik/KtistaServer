@@ -46,7 +46,7 @@ class `Test AuthController` {
 
     @Test
     fun `Register new user with empty password`(){
-        val registration = RegistrationDTO("Test", "", "test@test.test")
+        val registration = RegistrationDTO("Test", "", "test@gmail.com")
 
         val post = MockMvcRequestBuilders
             .post("/api/auth/registration")
