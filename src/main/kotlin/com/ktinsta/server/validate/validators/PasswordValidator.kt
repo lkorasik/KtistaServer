@@ -2,11 +2,11 @@ package com.ktinsta.server.validate.validators
 
 import com.ktinsta.server.exceptions.*
 import com.ktinsta.server.service.UserService
-import com.ktinsta.server.validate.annotations.Password
+import com.ktinsta.server.validate.annotations.ValidatePassword
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
-class PasswordValidator(private val userService: UserService) : ConstraintValidator<Password, String> {
+class PasswordValidator(private val userService: UserService) : ConstraintValidator<ValidatePassword, String> {
     override fun isValid(value: String, context: ConstraintValidatorContext): Boolean {
         if (value.length < 3)
             throw TooShortPasswordException("Password too short")

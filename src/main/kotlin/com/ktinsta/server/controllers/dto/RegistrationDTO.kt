@@ -1,14 +1,14 @@
 package com.ktinsta.server.controllers.dto
 
-import com.ktinsta.server.validate.annotations.Email
-import com.ktinsta.server.validate.annotations.Password
-import com.ktinsta.server.validate.annotations.Username
+import com.ktinsta.server.validate.annotations.ValidateEmail
+import com.ktinsta.server.validate.annotations.ValidatePassword
+import com.ktinsta.server.validate.annotations.ValidateUsername
 
 data class RegistrationDTO(
-    @Username
+    @ValidateUsername
     val username: String,
-    @Password
+    @ValidatePassword
     val password: String,
-    @Email
+    @ValidateEmail
     val email: String
 )

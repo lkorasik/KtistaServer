@@ -1,14 +1,14 @@
 package com.ktinsta.server.validate.validators
 
 import com.ktinsta.server.exceptions.InvalidEmailException
-import com.ktinsta.server.validate.annotations.Email
+import com.ktinsta.server.validate.annotations.ValidateEmail
 import org.apache.commons.validator.routines.DomainValidator
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
 private typealias BaseEmailValidator = org.apache.commons.validator.routines.EmailValidator
 
-class EmailValidator: ConstraintValidator<Email, String> {
+class EmailValidator: ConstraintValidator<ValidateEmail, String> {
     private val validator = BaseEmailValidator(false, false, DomainValidator.getInstance())
 
     override fun isValid(value: String, context: ConstraintValidatorContext): Boolean {

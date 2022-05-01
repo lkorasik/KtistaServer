@@ -5,11 +5,11 @@ import com.ktinsta.server.exceptions.NotUniqueUsernameException
 import com.ktinsta.server.exceptions.TooLongUsernameException
 import com.ktinsta.server.exceptions.TooShortUsernameException
 import com.ktinsta.server.service.UserService
-import com.ktinsta.server.validate.annotations.Username
+import com.ktinsta.server.validate.annotations.ValidateUsername
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
-class UsernameValidator(private val userService: UserService) : ConstraintValidator<Username, String> {
+class UsernameValidator(private val userService: UserService) : ConstraintValidator<ValidateUsername, String> {
     override fun isValid(value: String, context: ConstraintValidatorContext): Boolean {
         if (value.length < 3)
             throw TooShortUsernameException("Username too short")

@@ -1,15 +1,15 @@
 package com.ktinsta.server.validate.annotations
 
-import com.ktinsta.server.validate.validators.PasswordValidator
+import com.ktinsta.server.validate.validators.UsernameValidator
 import javax.validation.Constraint
 import javax.validation.Payload
 import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-@Constraint(validatedBy = [PasswordValidator::class])
-annotation class Password (
-    val message: String = "Invalid password",
+@Constraint(validatedBy = [UsernameValidator::class])
+annotation class ValidateUsername (
+    val message: String = "Invalid username",
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )
