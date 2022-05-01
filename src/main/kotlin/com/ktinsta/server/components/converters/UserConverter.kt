@@ -1,4 +1,4 @@
-package com.ktinsta.server.components
+package com.ktinsta.server.components.converters
 
 import com.ktinsta.server.controllers.dto.ShortUserDTO
 import com.ktinsta.server.storage.model.BriefUser
@@ -6,7 +6,7 @@ import com.ktinsta.server.storage.model.FullUser
 import org.springframework.stereotype.Component
 
 @Component
-class UserAssembler {
+class UserConverter {
     fun toShortUserVO(user: FullUser): ShortUserDTO {
         return  ShortUserDTO(
             avatar = user.avatar?.data,

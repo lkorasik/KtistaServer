@@ -1,13 +1,12 @@
 package com.ktinsta.server.controllers
 
-import com.ktinsta.server.components.UserAssembler
+import com.ktinsta.server.components.converters.UserConverter
 import com.ktinsta.server.constants.ResponseConstants
 import com.ktinsta.server.controllers.dto.RegistrationDTO
 import com.ktinsta.server.security.AccountCredentials
 import com.ktinsta.server.service.UserServiceImpl
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/auth")
 @Api(tags = ["Authorization"], description = "This controller handles registration and authorization.")
-class AuthController(val userService: UserServiceImpl, val userAssembler: UserAssembler) {
+class AuthController(val userService: UserServiceImpl, val userConverter: UserConverter) {
 
     @PostMapping("/registration")
     @ApiOperation(value = "Create new account.")

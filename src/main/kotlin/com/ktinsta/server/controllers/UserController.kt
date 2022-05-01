@@ -1,7 +1,7 @@
 package com.ktinsta.server.controllers
 
-import com.ktinsta.server.components.PostAssembler
-import com.ktinsta.server.components.UserAssembler
+import com.ktinsta.server.components.converters.PostConverter
+import com.ktinsta.server.components.converters.UserConverter
 import com.ktinsta.server.controllers.dto.UserSettingsDTO
 import com.ktinsta.server.controllers.dto.FollowingDTO
 import com.ktinsta.server.controllers.dto.ReturnPostDTO
@@ -21,11 +21,12 @@ import javax.validation.Valid
 @Api(tags = ["User"], description = "This controller handles everything related to the user (except authorization).")
 class UserController(
     val userService: UserServiceImpl,
-    val userAssembler: UserAssembler,
+    val userConverter: UserConverter,
     val avatarService: AvatarService,
     val followersService: FollowersService,
     val postService: PostService,
-    val postAssembler: PostAssembler) {
+    val postConverter: PostConverter
+) {
 
     @GetMapping("/profile")
     @ApiOperation(value = "Get user information like username, avatar and etc.")
@@ -39,7 +40,7 @@ class UserController(
             user = user.copy(avatar = avatar)
         }
 
-        return ResponseEntity.ok(userAssembler.toShortUserVO(user))
+        return ResponseEntity.ok(userConverter.toShortUserVO(user))
     }
 
     @GetMapping("/settings")
@@ -79,7 +80,7 @@ class UserController(
         val user = userService.retrieveFullUserData(userId)
         val posts = postService.getAllPosts(user)
 
-        return ResponseEntity.ok(posts?.map { postAssembler.toPostVO(it) })
+        return ResponseEntity.ok(posts?.map { postConverter.toPostVO(it) })
     }
 
     @GetMapping("/all-followings")
@@ -87,7 +88,7 @@ class UserController(
         val userId = TokenAuthenticationService.getUserIdFromRequest(request)
         val followings = followersService.getAllFollowings(userId)
 
-        return ResponseEntity.ok(followings.map { userAssembler.toShortUserVO(it.follower) })
+        return ResponseEntity.ok(followings.map { userConverter.toShortUserVO(it.follower) })
     }
 
     @GetMapping("/feed")
@@ -96,6 +97,6 @@ class UserController(
         val user = userService.retrieveFullUserData(userId)
         val feed = postService.getFeed(user)
 
-        return ResponseEntity.ok(feed.map { postAssembler.toPostVO(it) })
+        return ResponseEntity.ok(feed.map { postConverter.toPostVO(it) })
     }
 }
